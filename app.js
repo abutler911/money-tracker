@@ -31,6 +31,36 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
+const AdminUser = require("./models/AdminUser");
+
+// Manually create an admin user
+const adminUsername = "admin";
+const adminPassword = "";
+
+// Check if the admin user already exists
+AdminUser.findOne({ username: adminUsername })
+  .then((existingUser) => {
+    if (!existingUser) {
+      // Create the admin user if it doesn't exist
+      const newAdminUser = new AdminUser({
+        username: adminUsername,
+        password: adminPassword,
+      });
+      return newAdminUser.save();
+    } else {
+      console.log("Admin user already exists");
+      return null;
+    }
+  })
+  .then((savedUser) => {
+    if (savedUser) {
+      console.log("Admin user created successfully");
+    }
+  })
+  .catch((err) => {
+    console.error("Error creating/admin user:", err);
+  });
+
 // Route for the password input screen
 app.get("/", (req, res) => {
   res.render("index", { title: "Money Tracker" });
@@ -65,7 +95,24 @@ app.get("/dashboard", async (req, res) => {
 
 // Routes for the admin section
 app.get("/admin", (req, res) => {
-  res.render("admin");
+  res.render("admin", { title: "Admin" });
+});
+
+// Route to update the master password (admin route)
+app.post("/admin/update-password", async (req, res, next) => {
+  try {
+    const newPassword = req.body.password;
+    const saltRounds = 10; // Number of salt rounds for bcrypt
+    const hashedPassword = bcrypt.hashSync(newPassword, saltRounds); // Hash the new password
+    await AdminPassword.findOneAndUpdate(
+      {},
+      { password: hashedPassword },
+      { upsert: true }
+    ); // Update or create the admin password record
+    res.redirect("/admin"); // Redirect back to the admin page
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Routes for savings

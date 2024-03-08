@@ -1,0 +1,34 @@
+<div class="container">
+  <h1 class="mt-5 text-center mb-6">Admin Page</h1>
+  <hr />
+
+  <!-- Buttons to add debts and savings -->
+  <div class="row mt-3">
+    <div class="col-md-6">
+      <form action="/debt" method="POST">
+        <button type="submit" class="btn btn-primary">Add Debt</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <form action="/savings" method="POST">
+        <button type="submit" class="btn btn-primary">Add Savings</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Form to change master password -->
+  <h2 class="mt-5">Change Master Password</h2>
+  <form action="/admin/update-password" method="POST">
+    <div class="form-group">
+      <label for="password">New Master Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        class="form-control"
+        required
+      />
+    </div>
+    <button type="submit" class="btn btn-warning">Change Password</button>
+  </form>
+</div>

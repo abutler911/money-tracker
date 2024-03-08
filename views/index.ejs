@@ -1,63 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Savings and Debt Tracker</title>
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- Google Font -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        font-family: "Roboto", sans-serif;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1 class="mt-5 mb-4 text-center">Savings and Debt Tracker</h1>
-      <!-- Display Savings Data -->
-      <div class="card mb-4">
-        <div class="card-header">
-          <h2 class="mb-0">Savings Data</h2>
-        </div>
-        <div class="card-body">
-          <ul class="list-group">
-            <% savings.forEach(saving => { %>
-            <li class="list-group-item">
-              Amount: $<%= saving.amount %> | Description: <%=
-              saving.description %> | Date: <%= saving.date.toDateString() %>
-            </li>
-            <% }); %>
-          </ul>
-        </div>
-      </div>
-      <!-- Display Debt Data -->
-      <div class="card">
-        <div class="card-header">
-          <h2 class="mb-0">Debt Data</h2>
-        </div>
-        <div class="card-body">
-          <ul class="list-group">
-            <% debt.forEach(debt => { %>
-            <li class="list-group-item">
-              Amount: $<%= debt.amount %> | Description: <%= debt.description %>
-              | Date: <%= debt.date.toDateString() %>
-            </li>
-            <% }); %>
-          </ul>
-        </div>
-      </div>
-      <div class="text-center">
-        <a href="/admin" class="btn btn-primary">Admin Section</a>
-      </div>
+<div class="container">
+  <div class="header text-center">
+    <img src="/images/your-logo.png" alt="App Logo" class="logo" />
+    <h1>Money Tracker</h1>
+  </div>
+
+  <form class="password-form" id="password-form">
+    <div class="form-group">
+      <label for="password">Enter Password:</label>
+      <input type="password" class="form-control" id="password" required />
     </div>
-  </body>
-</html>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>

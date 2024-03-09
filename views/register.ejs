@@ -2,11 +2,13 @@
   <div class="header text-center">
     <img src="/images/logo.png" alt="App Logo" class="logo" />
     <h1>Money Tracker</h1>
-    <h2>Login to your account</h2>
+    <h2>Register for an account</h2>
   </div>
 
-  <form action="/login" method="post">
+  <form action="/register" method="post">
     <div class="form-group">
+      <label for="name">Enter First Name:</label>
+      <input type="text" id="name" name="name" class="form-control" required />
       <label for="username">Enter Username:</label>
       <input
         type="text"
@@ -24,7 +26,7 @@
         required
       />
     </div>
-    <p class="fs-6">New User? Register <a href="/register">here</a></p>
+    <p class="fs-6">Already have an account? Login<a href="/"> here</a></p>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>

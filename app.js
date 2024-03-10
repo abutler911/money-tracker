@@ -36,12 +36,32 @@ app.use(
 
 // Initialize Passport
 app.use(passport.initialize());
+console.log("Passport initialized");
+
 app.use(passport.session());
 
 // Passport Local Strategy
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(
+  new LocalStrategy(
+    { usernameField: "username" },
+    async (username, password, done) => {
+      console.log("Entered passport strategy");
+      // Use 'async' here
+      try {
+        const user = await User.findOne({
+          username: { $regex: new RegExp("^" + username + "$", "i") },
+        }); // Use 'await'
+        // ... (rest of your password comparison logic with bcrypt) ...
+      } catch (err) {
+        return done(err);
+      }
+    }
+  )
+);
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+console.log("Local strategy configured");
 
 // Connect to MongoDB
 const mongoURI = process.env.MONGODB_URI;
@@ -52,27 +72,47 @@ mongoose
 
 // Routes
 app.get("/", (req, res) => {
+  console.log("GET / route accessed"); // Log when the root route is accessed
   res.render("index", { title: "Money Tracker" });
 });
 
 app.get("/login", (req, res) => {
+  console.log("GET /login route accessed"); // Log when the login page is accessed
   res.render("login", { title: "Login" });
 });
 
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/dashboard",
-    failureRedirect: "/login",
-  })
-);
+app.post("/login", (req, res, next) => {
+  console.log("POST /login route accessed");
+  console.log("Request body:", req.body);
+
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      console.error("Error during authentication:", err);
+      return next(err);
+    }
+    if (!user) {
+      console.log("User not found");
+      return res.redirect("/login");
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        console.error("Error during login:", err);
+        return next(err);
+      }
+      console.log("User authenticated:", user);
+      return res.redirect("/dashboard"); // Redirect only after successful login
+    });
+  })(req, res, next);
+});
 
 app.get("/register", (req, res) => {
+  console.log("GET /register route accessed"); // Log when the registration page is accessed
   res.render("register", { title: "Register" });
 });
 
 app.post("/register", async (req, res) => {
   try {
+    console.log("POST /register route accessed"); // Log when the registration form is submitted
     const { name, username, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ name, username, password: hashedPassword });
@@ -86,6 +126,7 @@ app.post("/register", async (req, res) => {
 
 app.get("/dashboard", isAuthenticated, async (req, res, next) => {
   try {
+    console.log("GET /dashboard route accessed"); // Log when the dashboard is accessed
     const savings = await Savings.find();
     const debt = await Debt.find();
     res.render("index", { savings, debt });
@@ -96,6 +137,7 @@ app.get("/dashboard", isAuthenticated, async (req, res, next) => {
 
 // Admin section route
 app.get("/admin", (req, res) => {
+  console.log("GET /admin route accessed"); // Log when the admin section is accessed
   res.render("admin", { title: "Admin" });
 });
 
@@ -111,7 +153,7 @@ app.delete("/debt/:id", isAuthenticated, debtController.deleteDebt);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error(err);
   res.status(500).send("Something went wrong!");
 });
 

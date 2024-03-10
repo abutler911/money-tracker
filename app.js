@@ -12,25 +12,20 @@ const Debt = require("./models/debt");
 const expressLayouts = require("express-ejs-layouts");
 const User = require("./models/user");
 const isAuthenticated = require("./auth/authMiddleware");
+const bcrypt = require("bcrypt");
 
 dotenv.config();
 
 const app = express();
 
+// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.use(express.static("public"));
 
-const mongoURI = process.env.MONGODB_URI;
-mongoose
-  .connect(mongoURI, {})
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Error connecting to MongoDB:", err));
-
-// Configure express-session middleware with a secret
+// Session configuration
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -39,16 +34,38 @@ app.use(
   })
 );
 
+// Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Passport Local Strategy
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// Connect to MongoDB
+const mongoURI = process.env.MONGODB_URI;
+mongoose
+  .connect(mongoURI, {})
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("Error connecting to MongoDB:", err));
+
+// Routes
 app.get("/", (req, res) => {
   res.render("index", { title: "Money Tracker" });
 });
+
+app.get("/login", (req, res) => {
+  res.render("login", { title: "Login" });
+});
+
+app.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/dashboard",
+    failureRedirect: "/login",
+  })
+);
 
 app.get("/register", (req, res) => {
   res.render("register", { title: "Register" });
@@ -57,28 +74,17 @@ app.get("/register", (req, res) => {
 app.post("/register", async (req, res) => {
   try {
     const { name, username, password } = req.body;
-
-    // Hash and salt the password
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create a new user instance
-    const user = new User({
-      name,
-      username,
-      password: hashedPassword,
-    });
-
-    // Save the user to the database
+    const user = new User({ name, username, password: hashedPassword });
     await user.save();
-
-    res.redirect("/dashboard"); // Redirect to dashboard after successful registration
+    res.redirect("/dashboard");
   } catch (err) {
     console.error(err);
     res.status(500).send("Failed to register user");
   }
 });
 
-app.get("/dashboard", isAuthenticated, async (req, res) => {
+app.get("/dashboard", isAuthenticated, async (req, res, next) => {
   try {
     const savings = await Savings.find();
     const debt = await Debt.find();
@@ -88,7 +94,7 @@ app.get("/dashboard", isAuthenticated, async (req, res) => {
   }
 });
 
-// Routes for the admin section
+// Admin section route
 app.get("/admin", (req, res) => {
   res.render("admin", { title: "Admin" });
 });
@@ -103,6 +109,7 @@ app.get("/debt", isAuthenticated, debtController.getAllDebt);
 app.post("/debt", isAuthenticated, debtController.createDebt);
 app.delete("/debt/:id", isAuthenticated, debtController.deleteDebt);
 
+// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong!");

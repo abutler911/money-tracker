@@ -24,6 +24,9 @@ body {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .header {
@@ -63,8 +66,20 @@ label {
   font-size: 1em;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 150px;
 }
 
 .btn-primary:hover {
   background-color: #1a5040;
+}
+
+.button-container {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.tagline {
+  font-size: 0.5em;
+  margin-top: auto;
 }

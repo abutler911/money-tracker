@@ -10,8 +10,10 @@ const UserSchema = new Schema({
   isVerified: { type: Boolean, default: false },
 });
 
+// Apply passport-local-mongoose plugin to UserSchema
 UserSchema.plugin(passportLocalMongoose);
 
+// Create User model
 const User = mongoose.model("User", UserSchema);
 
 module.exports = User;

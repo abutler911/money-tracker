@@ -2,11 +2,13 @@
   <div class="header text-center">
     <h1 class="ojuju-font">Welcome to Penny Pal, <%= user.name %>!</h1>
   </div>
+  <hr />
   <% if (user.isAdmin) { %>
   <div class="admin-button mt-4 text-center">
     <a href="/admin" class="btn btn-primary">Admin</a>
   </div>
   <% } %>
+  <hr />
   <div class="savings">
     <h2>Savings</h2>
     <ul class="list-group">

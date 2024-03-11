@@ -18,10 +18,14 @@
     <h3>Total Savings: $<%= getTotalSavingsAmount(savings) %></h3>
     <div class="table-responsive">
       <table class="table table-striped">
+        <!-- Table headers -->
         <thead>
           <tr>
             <th scope="col">Account Name</th>
             <th scope="col">Amount</th>
+            <% if (user.isAdmin) { %>
+            <th scope="col">Actions</th>
+            <% } %>
           </tr>
         </thead>
         <tbody>
@@ -29,6 +33,30 @@
           <tr>
             <td><%= saving.accountName %></td>
             <td>$<%= saving.amount %></td>
+            <% if (user.isAdmin) { %>
+            <td>
+              <div class="btn-group" role="group">
+                <form
+                  action="/update-saving/<%= saving._id %>"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button type="submit" class="btn btn-sm btn-warning">
+                    Update
+                  </button>
+                </form>
+                <form
+                  action="/delete-saving/<%= saving._id %>"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button type="submit" class="btn btn-sm btn-danger">
+                    Delete
+                  </button>
+                </form>
+              </div>
+            </td>
+            <% } %>
           </tr>
           <% }); %>
         </tbody>
@@ -44,6 +72,9 @@
           <tr>
             <th scope="col">Account Name</th>
             <th scope="col">Amount</th>
+            <% if (user.isAdmin) { %>
+            <th scope="col">Actions</th>
+            <% } %>
           </tr>
         </thead>
         <tbody>
@@ -51,6 +82,30 @@
           <tr>
             <td><%= debtItem.description %></td>
             <td>$<%= debtItem.amount %></td>
+            <% if (user.isAdmin) { %>
+            <td>
+              <div class="btn-group" role="group">
+                <form
+                  action="/update-debt/<%= debtItem._id %>"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button type="submit" class="btn btn-sm btn-warning">
+                    Update
+                  </button>
+                </form>
+                <form
+                  action="/delete-debt/<%= debtItem._id %>"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button type="submit" class="btn btn-sm btn-danger">
+                    Delete
+                  </button>
+                </form>
+              </div>
+            </td>
+            <% } %>
           </tr>
           <% }); %>
         </tbody>

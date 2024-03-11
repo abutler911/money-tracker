@@ -5,7 +5,7 @@
     <h2>Login to your account</h2>
   </div>
 
-  <form action="/login" method="post">
+  <form action="/login" method="post" onsubmit="trimInputs()">
     <div class="form-group">
       <label for="username">Enter Username:</label>
       <input
@@ -28,3 +28,14 @@
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>
+
+<script>
+  function trimInputs() {
+    var usernameInput = document.getElementById("username");
+    var passwordInput = document.getElementById("password");
+
+    // Trim leading and trailing whitespace from the input values
+    usernameInput.value = usernameInput.value.trim();
+    passwordInput.value = passwordInput.value.trim();
+  }
+</script>

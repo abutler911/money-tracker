@@ -1,6 +1,6 @@
 <div class="container mt-5">
   <div class="header text-center">
-    <h1 class="ojuju-font">Welcome to Penny Pal, <%= user.name %>!</h1>
+    <h1>Welcome to Penny Pal, <%= user.name %>!</h1>
   </div>
   <hr />
   <% if (user.isAdmin) { %>
@@ -8,26 +8,53 @@
     <a href="/admin" class="btn btn-primary">Admin</a>
   </div>
   <% } %>
+  <div class="last-updated text-end mb-3 mt-5">
+    <small>Last Updated: <%= new Date().toLocaleString() %></small>
+  </div>
   <hr />
   <div class="savings">
     <h2>Savings</h2>
-    <ul class="list-group">
-      <% savings.forEach(saving => { %>
-      <li class="list-group-item">
-        <%= saving.description %>: $<%= saving.amount %>
-      </li>
-      <% }); %>
-    </ul>
+    <!-- Add the h3 for total amount here -->
+    <h3>Total Savings: $<%= getTotalSavingsAmount(savings) %></h3>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Account Name</th>
+            <th scope="col">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% savings.forEach(saving => { %>
+          <tr>
+            <td><%= saving.accountName %></td>
+            <td>$<%= saving.amount %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="debt mt-4">
     <h2>Debt</h2>
-    <ul class="list-group">
-      <% debt.forEach(debtItem => { %>
-      <li class="list-group-item">
-        <%= debtItem.description %>: $<%= debtItem.amount %>
-      </li>
-      <% }); %>
-    </ul>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Account Name</th>
+            <th scope="col">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% debt.forEach(debtItem => { %>
+          <tr>
+            <td><%= debtItem.description %></td>
+            <td>$<%= debtItem.amount %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

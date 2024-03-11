@@ -108,17 +108,26 @@ app.post("/register", async (req, res) => {
     res.status(500).send("Failed to register user");
   }
 });
+const getTotalSavingsAmount = (savings) => {
+  let totalAmount = 0;
+  savings.forEach((saving) => {
+    totalAmount += saving.amount;
+  });
+  return totalAmount;
+};
 
 app.get("/dashboard", isAuthenticated, async (req, res, next) => {
   try {
     const user = req.user;
     const savings = await Savings.find();
     const debt = await Debt.find();
+    const totalSavingsAmount = getTotalSavingsAmount(savings); // Calculate total savings amount
     res.render("dashboard", {
       title: "Penny Pal Dashboard",
       user,
       savings,
       debt,
+      getTotalSavingsAmount, // Pass getTotalSavingsAmount function as a local variable
     });
   } catch (err) {
     next(err);
@@ -130,6 +139,46 @@ app.get("/admin", isAuthenticated, (req, res) => {
     res.render("admin", { title: "Admin" });
   } else {
     res.status(403).send("You do not have permission to access this page.");
+  }
+});
+
+app.get("/add-savings", isAuthenticated, (req, res) => {
+  if (req.user.isAdmin) {
+    const user = req.user;
+    res.render("add-savings", { title: "Add Savings", user: user });
+  } else {
+    res.status(403).send("You do not have permission to access this page.");
+  }
+});
+
+app.post("/add-savings", isAuthenticated, async (req, res) => {
+  try {
+    // Ensure user is admin
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .send("You do not have permission to perform this action.");
+    }
+
+    // Extract account name and amount from request body
+    const { accountName, amount } = req.body;
+
+    // Validate input (e.g., ensure amount is a valid number)
+
+    // Create new savings object
+    const savings = new Savings({
+      accountName,
+      amount,
+    });
+
+    // Save the savings object to the database
+    await savings.save();
+
+    // Redirect to dashboard with success message
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Error adding savings:", error);
+    res.status(500).send("Failed to add savings.");
   }
 });
 

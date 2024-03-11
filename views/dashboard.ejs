@@ -1,1 +1,31 @@
-<h1>THE DASHBOARD!!! YOU'RE AUTHENTICATED!</h1>
+<div class="container mt-5">
+  <div class="header text-center">
+    <h1 class="ojuju-font">Welcome to Penny Pal, <%= user.name %>!</h1>
+  </div>
+  <% if (user.isAdmin) { %>
+  <div class="admin-button mt-4 text-center">
+    <a href="/admin" class="btn btn-primary">Admin</a>
+  </div>
+  <% } %>
+  <div class="savings">
+    <h2>Savings</h2>
+    <ul class="list-group">
+      <% savings.forEach(saving => { %>
+      <li class="list-group-item">
+        <%= saving.description %>: $<%= saving.amount %>
+      </li>
+      <% }); %>
+    </ul>
+  </div>
+
+  <div class="debt mt-4">
+    <h2>Debt</h2>
+    <ul class="list-group">
+      <% debt.forEach(debtItem => { %>
+      <li class="list-group-item">
+        <%= debtItem.description %>: $<%= debtItem.amount %>
+      </li>
+      <% }); %>
+    </ul>
+  </div>
+</div>

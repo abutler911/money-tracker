@@ -18,7 +18,7 @@ body {
 }
 
 .container {
-  max-width: 400px;
+  max-width: 90%;
   margin: 100px auto 0 auto;
   padding: 50px 20px;
   background-color: #fff;
@@ -44,6 +44,19 @@ h1 {
   font-size: 2.5em;
 }
 
+h2 {
+  color: #2c786c;
+  font-size: 2em;
+  margin-top: 40px;
+}
+
+hr {
+  color: black;
+  background-color: black;
+  border: 1px solid black;
+  width: 100%;
+}
+
 label {
   color: #2c786c;
 }
@@ -66,7 +79,7 @@ label {
   font-size: 1em;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 150px;
+  width: 100px;
 }
 
 .btn-primary:hover {
@@ -82,4 +95,24 @@ label {
 .tagline {
   font-size: 0.5em;
   margin-top: auto;
+}
+
+.list-group-item {
+  background-color: #fff;
+  border: none;
+}
+
+.list-group-item:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.list-group-item:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.list-group {
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

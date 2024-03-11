@@ -68,7 +68,7 @@ mongoose
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
 app.get("/", (req, res) => {
-  res.render("index", { title: "Money Tracker" });
+  res.render("index", { title: "Penny Pal" });
 });
 
 app.get("/login", (req, res) => {
@@ -111,16 +111,26 @@ app.post("/register", async (req, res) => {
 
 app.get("/dashboard", isAuthenticated, async (req, res, next) => {
   try {
+    const user = req.user;
     const savings = await Savings.find();
     const debt = await Debt.find();
-    res.render("dashboard", { title: "Dashboard", savings, debt });
+    res.render("dashboard", {
+      title: "Penny Pal Dashboard",
+      user,
+      savings,
+      debt,
+    });
   } catch (err) {
     next(err);
   }
 });
 
 app.get("/admin", isAuthenticated, (req, res) => {
-  res.render("admin", { title: "Admin" });
+  if (req.user.isAdmin) {
+    res.render("admin", { title: "Admin" });
+  } else {
+    res.status(403).send("You do not have permission to access this page.");
+  }
 });
 
 app.get("/savings", isAuthenticated, savingsController.getAllSavings);

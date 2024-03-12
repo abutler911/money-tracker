@@ -141,10 +141,11 @@ app.get("/admin", isAuthenticated, (req, res) => {
   if (req.user.isAdmin) {
     res.render("admin", { title: "Admin" });
   } else {
-    res.status(403).send("You do not have permission to access this page.");
+    res.status(403).render("error", {
+      message: "You do not have permission to access this page.",
+    });
   }
 });
-
 app.get("/add-savings", isAuthenticated, (req, res) => {
   if (req.user.isAdmin) {
     const user = req.user;
@@ -261,9 +262,13 @@ app.post("/update-saving/:id", isAuthenticated, async (req, res) => {
 app.use((err, req, res, next) => {
   console.error(err);
   if (err.name === "UnauthorizedError") {
-    res.status(401).send("Unauthorized Access!");
+    res
+      .status(401)
+      .render("error", { title: "Error", message: "Unauthorized Access!" });
   } else {
-    res.status(500).send("Something went wrong!");
+    res
+      .status(500)
+      .render("error", { title: "Error", message: "Something went wrong!" });
   }
 });
 

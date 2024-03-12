@@ -20,6 +20,7 @@ body {
   flex-direction: column;
   align-items: center;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  text-align: center;
 }
 
 .header {
@@ -55,6 +56,14 @@ h3 {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   margin-bottom: 30px;
 }
+
+p {
+  color: #6c757d;
+}
+.btn-return {
+  margin-top: 20px;
+}
+
 hr {
   color: black;
   background-color: black;

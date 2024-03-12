@@ -19,7 +19,13 @@ body {
 }
 
 .header {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  height: auto;
+  width: auto;
+  background-color: red;
 }
 
 h1,

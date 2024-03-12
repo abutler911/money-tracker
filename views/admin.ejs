@@ -1,6 +1,29 @@
 <div class="container">
   <h1 class="mt-5 text-center mb-6">Admin Page</h1>
   <hr />
+
+  <!-- Display unverified users -->
+  <div class="unverified-users">
+    <h2>Unverified Users</h2>
+    <ul class="list-group">
+      <% unverifiedUsers.forEach(user => { %>
+      <li class="list-group-item">
+        <%= user.name %> (<%= user.username %>)
+        <form
+          action="/verify-user/<%= user._id %>"
+          method="POST"
+          style="display: inline"
+        >
+          <button type="submit" class="btn btn-success btn-sm">Verify</button>
+        </form>
+      </li>
+      <% }); %>
+    </ul>
+  </div>
+
+  <hr />
+
+  <!-- Other functionalities -->
   <div class="row">
     <div class="col-6">
       <form action="/add-debt" method="GET">

@@ -20,6 +20,8 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(bodyParser.json());
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 app.use(expressLayouts);
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -112,7 +114,7 @@ app.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ name, username, password: hashedPassword });
     await user.save();
-    res.redirect("/dashboard");
+    res.redirect("/verification-pending");
   } catch (err) {
     console.error(err);
     res.status(500).send("Failed to register user");
@@ -137,15 +139,36 @@ app.get("/dashboard", isAuthenticated, async (req, res, next) => {
   }
 });
 
-app.get("/admin", isAuthenticated, (req, res) => {
-  if (req.user.isAdmin) {
-    res.render("admin", { title: "Admin" });
-  } else {
-    res.status(403).render("error", {
-      message: "You do not have permission to access this page.",
+app.get("/admin", isAuthenticated, async (req, res) => {
+  try {
+    // Fetch unverified users from the database
+    const unverifiedUsers = await User.find({ isVerified: false });
+
+    res.render("admin", {
+      title: "Admin",
+      unverifiedUsers: unverifiedUsers,
     });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error fetching unverified users");
   }
 });
+
+app.post("/verify-user/:userId", isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Update the user's verification status to true
+    await User.findByIdAndUpdate(userId, { isVerified: true });
+
+    // Redirect back to the admin page
+    res.redirect("/admin");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error verifying user");
+  }
+});
+
 app.get("/add-savings", isAuthenticated, (req, res) => {
   if (req.user.isAdmin) {
     const user = req.user;

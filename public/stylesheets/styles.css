@@ -43,6 +43,14 @@ h2 {
   margin-top: 40px;
 }
 
+h3 {
+  color: #2c786c;
+  font-size: 1.5em;
+  border: 1px solid gray;
+  background-color: aliceblue;
+  padding: 5px;
+  width: 90%;
+}
 hr {
   color: black;
   background-color: black;
@@ -110,4 +118,12 @@ label {
 .list-group {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table,
+.table-striped {
+  padding: 10px;
+  border-collapse: collapse;
+  width: 95%;
+  margin-bottom: 20px;
 }

@@ -259,6 +259,54 @@ app.post("/add-debt", isAuthenticated, async (req, res) => {
   }
 });
 
+app.post("/update-debt/:id", isAuthenticated, async (req, res) => {
+  try {
+    // Ensure user is admin
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .send("You do not have permission to perform this action.");
+    }
+
+    // Extract debt ID and new amount from request body
+    const { id } = req.params;
+    const { newAmount } = req.body;
+
+    // Find the debt by ID and update its amount
+    await Debt.findByIdAndUpdate(id, { amount: newAmount });
+
+    // Redirect to the dashboard with a success message
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Error updating debt:", error);
+    res.status(500).send("Failed to update debt.");
+  }
+});
+
+app.post("/update-saving/:id", isAuthenticated, async (req, res) => {
+  try {
+    // Ensure user is admin
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .send("You do not have permission to perform this action.");
+    }
+
+    // Extract saving ID and new amount from request body
+    const { id } = req.params;
+    const { newAmount } = req.body;
+
+    // Find the saving by ID and update its amount
+    await Savings.findByIdAndUpdate(id, { amount: newAmount });
+
+    // Redirect to the dashboard with a success message
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Error updating saving:", error);
+    res.status(500).send("Failed to update saving.");
+  }
+});
+
 app.get("/savings", isAuthenticated, savingsController.getAllSavings);
 app.post("/savings", isAuthenticated, savingsController.createSaving);
 app.delete("/savings/:id", isAuthenticated, savingsController.deleteSaving);

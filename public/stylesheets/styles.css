@@ -45,11 +45,14 @@ h2 {
 
 h3 {
   color: #2c786c;
-  font-size: 1.5em;
+  font-weight: bold;
+  font-size: 1em;
   border: 1px solid gray;
   background-color: aliceblue;
   padding: 5px;
-  width: 90%;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 hr {
   color: black;

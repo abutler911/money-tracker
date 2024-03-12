@@ -1,23 +1,24 @@
 <div class="container mt-5">
-  <div class="header text-center">
+  <div class="header text-center mb-4">
     <h1>Welcome to Penny Pal, <%= user.name %>!</h1>
+    <hr class="mt-3" />
   </div>
-  <div class="text-center">
-    <form action="/logout" method="GET">
-      <% if (user.isAdmin) { %>
-      <div class="admin-button text-center">
-        <a href="/admin" class="btn btn-primary">Admin</a>
-      </div>
-      <% } %>
-      <button type="submit" class="mt-4 btn btn-primary">Logout</button>
-    </form>
-  </div>
-  <hr />
 
-  <div class="last-updated text-end mb-3 mt-5">
-    <small>Last Updated: <%= new Date().toLocaleString() %></small>
+  <div class="text-center mb-4">
+    <% if (user.isAdmin) { %>
+    <div class="admin-button">
+      <a href="/admin" class="btn btn-primary">Admin</a>
+    </div>
+    <% } %>
+    <form action="/logout" method="GET">
+      <button type="submit" class="btn btn-primary mt-3">Logout</button>
+    </form>
+    <div class="last-updated mt-5 mb-3">
+      <small>Last Updated: <%= new Date().toLocaleString() %></small>
+    </div>
+    <hr />
   </div>
-  <hr />
+
   <div class="row">
     <div class="col-md-6">
       <div class="savings">
@@ -42,39 +43,28 @@
                 <td>$<%= saving.amount.toLocaleString() %></td>
                 <% if (user.isAdmin) { %>
                 <td>
-                  <div class="btn-group" role="group">
-                    <form
-                      action="/update-saving/<%= saving._id %>"
-                      method="POST"
-                      style="display: inline"
-                    >
-                      <div class="input-group">
-                        <input
-                          type="number"
-                          name="newAmount"
-                          value="<%= saving.amount %>"
-                          class="form-control"
-                        />
-                        <button
-                          type="submit"
-                          class="btn btn-sm btn-warning mt-1"
-                        >
+                  <form action="/update-saving/<%= saving._id %>" method="POST">
+                    <div class="input-group">
+                      <input
+                        type="number"
+                        name="newAmount"
+                        value="<%= saving.amount %>"
+                        class="form-control"
+                      />
+                      <div class="input-group-append">
+                        <button type="submit" class="btn btn-warning">
                           Update
                         </button>
                       </div>
-                    </form>
-                    <!-- Add some space between the buttons -->
-                    <div style="margin-top: 5px"></div>
-                    <form
-                      action="/delete-saving/<%= saving._id %>"
-                      method="POST"
-                      style="display: inline"
-                    >
-                      <button type="submit" class="btn btn-sm btn-danger">
-                        Delete
-                      </button>
-                    </form>
-                  </div>
+                    </div>
+                  </form>
+                  <form
+                    action="/delete-saving/<%= saving._id %>"
+                    method="POST"
+                    class="mt-2"
+                  >
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
                 </td>
                 <% } %>
               </tr>
@@ -105,43 +95,31 @@
               <% sortedDebt.forEach(debtItem => { %>
               <tr>
                 <td><%= debtItem.accountName %></td>
-                <!-- Format amount with commas -->
                 <td>$<%= debtItem.amount.toLocaleString() %></td>
                 <% if (user.isAdmin) { %>
                 <td>
-                  <div class="btn-group" role="group">
-                    <form
-                      action="/update-debt/<%= debtItem._id %>"
-                      method="POST"
-                      style="display: inline"
-                    >
-                      <div class="input-group">
-                        <input
-                          type="number"
-                          name="newAmount"
-                          value="<%= debtItem.amount %>"
-                          class="form-control"
-                        />
-                        <button
-                          type="submit"
-                          class="btn btn-sm btn-warning mt-1"
-                        >
+                  <form action="/update-debt/<%= debtItem._id %>" method="POST">
+                    <div class="input-group">
+                      <input
+                        type="number"
+                        name="newAmount"
+                        value="<%= debtItem.amount %>"
+                        class="form-control"
+                      />
+                      <div class="input-group-append">
+                        <button type="submit" class="btn btn-warning">
                           Update
                         </button>
                       </div>
-                    </form>
-                    <!-- Add some space between the buttons -->
-                    <div style="margin-top: 5px"></div>
-                    <form
-                      action="/delete-debt/<%= debtItem._id %>"
-                      method="POST"
-                      style="display: inline"
-                    >
-                      <button type="submit" class="btn btn-sm btn-danger">
-                        Delete
-                      </button>
-                    </form>
-                  </div>
+                    </div>
+                  </form>
+                  <form
+                    action="/delete-debt/<%= debtItem._id %>"
+                    method="POST"
+                    class="mt-2"
+                  >
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
                 </td>
                 <% } %>
               </tr>

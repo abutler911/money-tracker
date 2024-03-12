@@ -117,7 +117,9 @@ app.post("/register", async (req, res) => {
     res.redirect("/verification-pending");
   } catch (err) {
     console.error(err);
-    res.status(500).send("Failed to register user");
+    res
+      .status(500)
+      .render("error", { title: "Error", message: "Failed to register user" });
   }
 });
 
@@ -280,6 +282,10 @@ app.post("/update-saving/:id", isAuthenticated, async (req, res) => {
     console.error("Error updating saving:", error);
     res.status(500).send("Failed to update saving.");
   }
+});
+
+app.get("/verification-pending", (req, res) => {
+  res.render("verification-pending", { title: "Verification Pending" });
 });
 
 app.use((err, req, res, next) => {

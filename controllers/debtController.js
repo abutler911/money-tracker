@@ -1,10 +1,29 @@
 const Debt = require("../models/debt");
 
+exports.getTotalDebtAmount = async (req, res) => {
+  try {
+    const debt = await Debt.find();
+    let totalDebt = 0;
+    debt.forEach((debtItem) => {
+      totalDebt += debtItem.amount;
+    });
+    res.render("dashboard", {
+      title: "Penny Pal Dashboard",
+      user: req.user,
+      debt,
+      totalDebt,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // Controller function to get all debt
 exports.getAllDebt = async (req, res) => {
   try {
     const debt = await Debt.find();
-    res.render("debt/index", { debt });
+    const totalDebtAmount = getTotalDebtAmount(debt);
+    res.render("debt/index", { debt, totalDebtAmount });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

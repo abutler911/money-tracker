@@ -12,114 +12,123 @@
     <small>Last Updated: <%= new Date().toLocaleString() %></small>
   </div>
   <hr />
-  <div class="savings">
-    <h2>Savings</h2>
-    <!-- Add the h3 for total amount here -->
-    <h3>
-      Total Savings: $<%= getTotalSavingsAmount(savings).toLocaleString() %>
-    </h3>
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <!-- Table headers -->
-        <thead>
-          <tr>
-            <th scope="col">Account Name</th>
-            <th scope="col">Amount</th>
-            <% if (user.isAdmin) { %>
-            <th scope="col">Actions</th>
-            <% } %>
-          </tr>
-        </thead>
-        <tbody>
-          <% const sortedSavings = savings.sort((a, b) =>
-          a.accountName.localeCompare(b.accountName));
-          sortedSavings.forEach(saving => { %>
-          <tr>
-            <td><%= saving.accountName %></td>
-            <!-- Format amount with commas -->
-            <td>$<%= saving.amount.toLocaleString() %></td>
-            <% if (user.isAdmin) { %>
-            <td>
-              <div class="btn-group" role="group">
-                <form
-                  action="/update-saving/<%= saving._id %>"
-                  method="POST"
-                  style="display: inline"
-                >
-                  <button type="submit" class="btn btn-sm btn-warning">
-                    Update
-                  </button>
-                </form>
-                <!-- Add some space between the buttons -->
-                <div style="margin-left: 5px"></div>
-                <form
-                  action="/delete-saving/<%= saving._id %>"
-                  method="POST"
-                  style="display: inline"
-                >
-                  <button type="submit" class="btn btn-sm btn-danger">
-                    Delete
-                  </button>
-                </form>
-              </div>
-            </td>
-            <% } %>
-          </tr>
-          <% }); %>
-        </tbody>
-      </table>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="savings">
+        <h2>Savings</h2>
+        <!-- Add the h3 for total amount here -->
+        <h3>
+          Total Savings: $<%= getTotalSavingsAmount(savings).toLocaleString() %>
+        </h3>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <!-- Table headers -->
+            <thead>
+              <tr>
+                <th scope="col">Account Name</th>
+                <th scope="col">Amount</th>
+                <% if (user.isAdmin) { %>
+                <th scope="col">Actions</th>
+                <% } %>
+              </tr>
+            </thead>
+            <tbody>
+              <% const sortedSavings = savings.sort((a, b) =>
+              a.accountName.localeCompare(b.accountName));
+              sortedSavings.forEach(saving => { %>
+              <tr>
+                <td><%= saving.accountName %></td>
+                <!-- Format amount with commas -->
+                <td>$<%= saving.amount.toLocaleString() %></td>
+                <% if (user.isAdmin) { %>
+                <td>
+                  <div class="btn-group" role="group">
+                    <form
+                      action="/update-saving/<%= saving._id %>"
+                      method="POST"
+                      style="display: inline"
+                    >
+                      <button type="submit" class="btn btn-sm btn-warning">
+                        Update
+                      </button>
+                    </form>
+                    <!-- Add some space between the buttons -->
+                    <div style="margin-left: 5px"></div>
+                    <form
+                      action="/delete-saving/<%= saving._id %>"
+                      method="POST"
+                      style="display: inline"
+                    >
+                      <button type="submit" class="btn btn-sm btn-danger">
+                        Delete
+                      </button>
+                    </form>
+                  </div>
+                </td>
+                <% } %>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="debt mt-4">
-    <h2>Debt</h2>
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Account Name</th>
-            <th scope="col">Amount</th>
-            <% if (user.isAdmin) { %>
-            <th scope="col">Actions</th>
-            <% } %>
-          </tr>
-        </thead>
-        <tbody>
-          <% debt.forEach(debtItem => { %>
-          <tr>
-            <td><%= debtItem.description %></td>
-            <!-- Format amount with commas -->
-            <td>$<%= debtItem.amount.toLocaleString() %></td>
-            <% if (user.isAdmin) { %>
-            <td>
-              <div class="btn-group" role="group">
-                <form
-                  action="/update-debt/<%= debtItem._id %>"
-                  method="POST"
-                  style="display: inline"
-                >
-                  <button type="submit" class="btn btn-sm btn-warning">
-                    Update
-                  </button>
-                </form>
-                <!-- Add some space between the buttons -->
-                <div style="margin-left: 5px"></div>
-                <form
-                  action="/delete-debt/<%= debtItem._id %>"
-                  method="POST"
-                  style="display: inline"
-                >
-                  <button type="submit" class="btn btn-sm btn-danger">
-                    Delete
-                  </button>
-                </form>
-              </div>
-            </td>
-            <% } %>
-          </tr>
-          <% }); %>
-        </tbody>
-      </table>
+    <div class="col-md-6">
+      <div class="debt mt-4">
+        <h2>Debt</h2>
+        <h3>Total Debt: $<%= getTotalDebtAmount(debt).toLocaleString() %></h3>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Account Name</th>
+                <th scope="col">Amount</th>
+                <% if (user.isAdmin) { %>
+                <th scope="col">Actions</th>
+                <% } %>
+              </tr>
+            </thead>
+            <tbody>
+              <% const sortedDebt = debt.sort((a, b) =>
+              a.accountName.localeCompare(b.accountName));
+              sortedDebt.forEach(debtItem => { %>
+              <tr>
+                <td><%= debtItem.accountName %></td>
+                <!-- Format amount with commas -->
+                <td>$<%= debtItem.amount.toLocaleString() %></td>
+                <% if (user.isAdmin) { %>
+                <td>
+                  <div class="btn-group" role="group">
+                    <form
+                      action="/update-debt/<%= debtItem._id %>"
+                      method="POST"
+                      style="display: inline"
+                    >
+                      <button type="submit" class="btn btn-sm btn-warning">
+                        Update
+                      </button>
+                    </form>
+                    <!-- Add some space between the buttons -->
+                    <div style="margin-left: 5px"></div>
+                    <form
+                      action="/delete-debt/<%= debtItem._id %>"
+                      method="POST"
+                      style="display: inline"
+                    >
+                      <button type="submit" class="btn btn-sm btn-danger">
+                        Delete
+                      </button>
+                    </form>
+                  </div>
+                </td>
+                <% } %>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>

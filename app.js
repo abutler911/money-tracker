@@ -13,6 +13,7 @@ const expressLayouts = require("express-ejs-layouts");
 const User = require("./models/user");
 const isAuthenticated = require("./auth/authMiddleware");
 const bcrypt = require("bcrypt");
+const path = require("path");
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.use(expressLayouts);
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
   session({
@@ -116,17 +117,27 @@ const getTotalSavingsAmount = (savings) => {
   return totalAmount;
 };
 
+const getTotalDebtAmount = (debt) => {
+  let totalAmount = 0;
+  debt.forEach((debt) => {
+    totalAmount += debt.amount;
+  });
+  return totalAmount;
+};
+
 app.get("/dashboard", isAuthenticated, async (req, res, next) => {
   try {
     const user = req.user;
     const savings = await Savings.find();
     const debt = await Debt.find();
     const totalSavingsAmount = getTotalSavingsAmount(savings);
+    const totalDebtAmount = getTotalDebtAmount(debt);
     res.render("dashboard", {
       title: "Penny Pal Dashboard",
       user,
       savings,
       debt,
+      getTotalDebtAmount,
       getTotalSavingsAmount,
     });
   } catch (err) {
@@ -208,13 +219,18 @@ app.post("/delete-saving/:id", isAuthenticated, async (req, res) => {
 app.get("/add-debt", isAuthenticated, (req, res) => {
   if (req.user.isAdmin) {
     const user = req.user;
-    res.render("add-debt", { title: "Add Debt", user: user });
+    res.render("add-debt", {
+      title: "Add Debt",
+
+      user: user,
+    });
   } else {
     res.status(403).send("You do not have permission to access this page.");
   }
 });
 
 app.post("/add-debt", isAuthenticated, async (req, res) => {
+  console.log(req.body);
   try {
     // Ensure user is admin
     if (!req.user.isAdmin) {

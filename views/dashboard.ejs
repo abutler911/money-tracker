@@ -15,7 +15,9 @@
   <div class="savings">
     <h2>Savings</h2>
     <!-- Add the h3 for total amount here -->
-    <h3>Total Savings: $<%= getTotalSavingsAmount(savings) %></h3>
+    <h3>
+      Total Savings: $<%= getTotalSavingsAmount(savings).toLocaleString() %>
+    </h3>
     <div class="table-responsive">
       <table class="table table-striped">
         <!-- Table headers -->
@@ -29,10 +31,13 @@
           </tr>
         </thead>
         <tbody>
-          <% savings.forEach(saving => { %>
+          <% const sortedSavings = savings.sort((a, b) =>
+          a.accountName.localeCompare(b.accountName));
+          sortedSavings.forEach(saving => { %>
           <tr>
             <td><%= saving.accountName %></td>
-            <td>$<%= saving.amount %></td>
+            <!-- Format amount with commas -->
+            <td>$<%= saving.amount.toLocaleString() %></td>
             <% if (user.isAdmin) { %>
             <td>
               <div class="btn-group" role="group">
@@ -45,6 +50,8 @@
                     Update
                   </button>
                 </form>
+                <!-- Add some space between the buttons -->
+                <div style="margin-left: 5px"></div>
                 <form
                   action="/delete-saving/<%= saving._id %>"
                   method="POST"
@@ -81,7 +88,8 @@
           <% debt.forEach(debtItem => { %>
           <tr>
             <td><%= debtItem.description %></td>
-            <td>$<%= debtItem.amount %></td>
+            <!-- Format amount with commas -->
+            <td>$<%= debtItem.amount.toLocaleString() %></td>
             <% if (user.isAdmin) { %>
             <td>
               <div class="btn-group" role="group">
@@ -94,6 +102,8 @@
                     Update
                   </button>
                 </form>
+                <!-- Add some space between the buttons -->
+                <div style="margin-left: 5px"></div>
                 <form
                   action="/delete-debt/<%= debtItem._id %>"
                   method="POST"

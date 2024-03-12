@@ -121,13 +121,13 @@ app.get("/dashboard", isAuthenticated, async (req, res, next) => {
     const user = req.user;
     const savings = await Savings.find();
     const debt = await Debt.find();
-    const totalSavingsAmount = getTotalSavingsAmount(savings); // Calculate total savings amount
+    const totalSavingsAmount = getTotalSavingsAmount(savings);
     res.render("dashboard", {
       title: "Penny Pal Dashboard",
       user,
       savings,
       debt,
-      getTotalSavingsAmount, // Pass getTotalSavingsAmount function as a local variable
+      getTotalSavingsAmount,
     });
   } catch (err) {
     next(err);
@@ -179,6 +179,67 @@ app.post("/add-savings", isAuthenticated, async (req, res) => {
   } catch (error) {
     console.error("Error adding savings:", error);
     res.status(500).send("Failed to add savings.");
+  }
+});
+
+app.post("/delete-saving/:id", isAuthenticated, async (req, res) => {
+  try {
+    // Ensure user is admin
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .send("You do not have permission to perform this action.");
+    }
+
+    // Extract the savings account ID from the request parameters
+    const { id } = req.params;
+
+    // Find the savings account by ID and delete it
+    await Savings.findByIdAndDelete(id);
+
+    // Redirect to the dashboard with a success message
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Error deleting savings:", error);
+    res.status(500).send("Failed to delete savings.");
+  }
+});
+
+app.get("/add-debt", isAuthenticated, (req, res) => {
+  if (req.user.isAdmin) {
+    const user = req.user;
+    res.render("add-debt", { title: "Add Debt", user: user });
+  } else {
+    res.status(403).send("You do not have permission to access this page.");
+  }
+});
+
+app.post("/add-debt", isAuthenticated, async (req, res) => {
+  try {
+    // Ensure user is admin
+    if (!req.user.isAdmin) {
+      return res
+        .status(403)
+        .send("You do not have permission to perform this action.");
+    }
+
+    // Extract debt information from request body
+    const { accountName, amount } = req.body;
+
+    // Create a new debt object
+    const debt = new Debt({
+      accountName,
+      amount,
+    });
+
+    // Save the debt object to the database
+    await debt.save();
+
+    // Redirect to the dashboard with a success message
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Error adding debt:", error);
+    res.status(500).send("Failed to add debt.");
   }
 });
 

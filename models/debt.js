@@ -5,7 +5,7 @@ const debtSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  description: {
+  accountName: {
     type: String,
     required: true,
   },

@@ -31,9 +31,8 @@
               </tr>
             </thead>
             <tbody>
-              <% const sortedSavings = savings.sort((a, b) =>
-              a.accountName.localeCompare(b.accountName));
-              sortedSavings.forEach(saving => { %>
+              <% const sortedSavings = savings.sort((a, b) => b.amount -
+              a.amount); %> <% sortedSavings.forEach(saving => { %>
               <tr>
                 <td><%= saving.accountName %></td>
                 <!-- Format amount with commas -->
@@ -88,9 +87,8 @@
               </tr>
             </thead>
             <tbody>
-              <% const sortedDebt = debt.sort((a, b) =>
-              a.accountName.localeCompare(b.accountName));
-              sortedDebt.forEach(debtItem => { %>
+              <% const sortedDebt = debt.sort((a, b) => b.amount - a.amount); %>
+              <% sortedDebt.forEach(debtItem => { %>
               <tr>
                 <td><%= debtItem.accountName %></td>
                 <!-- Format amount with commas -->

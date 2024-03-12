@@ -2,12 +2,18 @@
   <div class="header text-center">
     <h1>Welcome to Penny Pal, <%= user.name %>!</h1>
   </div>
-  <hr />
-  <% if (user.isAdmin) { %>
-  <div class="admin-button mt-4 text-center">
-    <a href="/admin" class="btn btn-primary">Admin</a>
+  <div class="text-center">
+    <form action="/logout" method="GET">
+      <% if (user.isAdmin) { %>
+      <div class="admin-button text-center">
+        <a href="/admin" class="btn btn-primary">Admin</a>
+      </div>
+      <% } %>
+      <button type="submit" class="mt-4 btn btn-primary">Logout</button>
+    </form>
   </div>
-  <% } %>
+  <hr />
+
   <div class="last-updated text-end mb-3 mt-5">
     <small>Last Updated: <%= new Date().toLocaleString() %></small>
   </div>
@@ -16,11 +22,9 @@
     <div class="col-md-6">
       <div class="savings">
         <h2>Savings</h2>
-        <!-- Add the h3 for total amount here -->
         <h3>Total: $<%= getTotalSavingsAmount(savings).toLocaleString() %></h3>
         <div class="table-responsive">
           <table class="table table-striped">
-            <!-- Table headers -->
             <thead>
               <tr>
                 <th scope="col">Account Name</th>
@@ -35,7 +39,6 @@
               a.amount); %> <% sortedSavings.forEach(saving => { %>
               <tr>
                 <td><%= saving.accountName %></td>
-                <!-- Format amount with commas -->
                 <td>$<%= saving.amount.toLocaleString() %></td>
                 <% if (user.isAdmin) { %>
                 <td>
@@ -61,13 +64,13 @@
                       </div>
                     </form>
                     <!-- Add some space between the buttons -->
-                    <div style="margin-left: 5px"></div>
+                    <div style="margin-top: 5px"></div>
                     <form
                       action="/delete-saving/<%= saving._id %>"
                       method="POST"
                       style="display: inline"
                     >
-                      <button type="submit" class="btn btn-sm btn-danger mt-1">
+                      <button type="submit" class="btn btn-sm btn-danger">
                         Delete
                       </button>
                     </form>
@@ -128,13 +131,13 @@
                       </div>
                     </form>
                     <!-- Add some space between the buttons -->
-                    <div style="margin-left: 5px"></div>
+                    <div style="margin-top: 5px"></div>
                     <form
                       action="/delete-debt/<%= debtItem._id %>"
                       method="POST"
                       style="display: inline"
                     >
-                      <button type="submit" class="btn btn-sm btn-danger mt-1">
+                      <button type="submit" class="btn btn-sm btn-danger">
                         Delete
                       </button>
                     </form>

@@ -16,6 +16,19 @@ body {
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   text-align: center;
+  animation: fadeInUp 0.5s ease;
+}
+
+/* Define the fadeInUp animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .header {
@@ -88,6 +101,12 @@ hr {
 #username,
 #password {
   width: 100%;
+  height: 50px;
+  font-size: 1.5rem;
+  padding: 10px;
+  border: 2px solid #2c786c;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 .btn {
   width: 100px;
@@ -102,13 +121,14 @@ hr {
   padding: 10px 20px;
   font-size: 1em;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .btn-primary:hover {
   background-color: #1a5040;
+  transform: translateY(-3px); /* Add a slight upward movement on hover */
 }
 
 .button-container {
@@ -131,16 +151,6 @@ hr {
   border: none;
 }
 
-/* .list-group-item:first-child {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-.list-group-item:last-child {
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-} */
-
 .list-group {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -154,11 +164,6 @@ hr {
   width: 100%;
   margin-bottom: 20px;
 }
-
-/* Custom CSS for alternating row colors */
-/* .table-striped tbody tr:nth-child(odd) {
-  background-color: #2c786c;
-} */
 
 small {
   text-align: center;

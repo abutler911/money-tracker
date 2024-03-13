@@ -104,6 +104,7 @@ app.get("/logout", (req, res) => {
     }
   });
 });
+
 app.get("/register", (req, res) => {
   res.render("register", { title: "Register" });
 });
@@ -168,6 +169,15 @@ app.post("/verify-user/:userId", isAuthenticated, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Error verifying user");
+  }
+});
+
+app.get("/edit-accounts", isAuthenticated, (req, res) => {
+  if (req.user.isAdmin) {
+    const user = req.user;
+    res.render("edit-accounts", { title: "Edit Accounts", user: user });
+  } else {
+    res.status(403).send("You do not have permission to access this page.");
   }
 });
 

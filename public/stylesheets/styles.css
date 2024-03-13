@@ -39,7 +39,6 @@ h1 {
 
 h2 {
   font-size: 1.3rem;
-  margin-top: 40px;
 }
 
 h3 {
@@ -59,6 +58,11 @@ label {
   color: #6c757d;
 }
 
+.info-text {
+  font-size: 0.8rem;
+  background-color: #eefcf9;
+  padding: 10px;
+}
 .btn-return {
   margin-top: 20px;
 }

@@ -49,12 +49,10 @@
                 <td>$<%= saving.amount.toLocaleString() %></td>
                 <% if (user.isAdmin) { %>
                 <td>
-                  <form
-                    action="/delete-saving/<%= saving._id %>"
-                    method="POST"
-                    class="mt-2"
-                  >
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                  <form action="/delete-saving/<%= saving._id %>" method="POST">
+                    <button type="submit" class="btn btn-danger">
+                      <i class="bi bi-trash3-fill"></i>
+                    </button>
                   </form>
                 </td>
                 <% } %>
@@ -89,25 +87,10 @@
                 <td>$<%= debtItem.amount.toLocaleString() %></td>
                 <% if (user.isAdmin) { %>
                 <td>
-                  <form action="/update-debt/<%= debtItem._id %>" method="POST">
-                    <div class="input-group">
-                      <input
-                        type="number"
-                        name="newAmount"
-                        value="<%= debtItem.amount %>"
-                        class="form-control"
-                      />
-                      <div class="input-group-append">
-                        <button type="submit" class="btn">Update</button>
-                      </div>
-                    </div>
-                  </form>
-                  <form
-                    action="/delete-debt/<%= debtItem._id %>"
-                    method="POST"
-                    class="mt-2"
-                  >
-                    <button type="submit" class="btn">Delete</button>
+                  <form action="/delete-debt/<%= debtItem._id %>" method="POST">
+                    <button type="submit" class="btn btn-danger">
+                      <i class="bi bi-trash3-fill"></i>
+                    </button>
                   </form>
                 </td>
                 <% } %>

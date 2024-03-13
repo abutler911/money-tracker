@@ -75,16 +75,22 @@ hr {
 }
 
 .form-control {
-  margin-bottom: 20px;
-  padding: 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  padding: 5px;
   border: 2px solid #2c786c;
   border-radius: 5px;
-  width: 100%;
+  width: 50%;
   box-sizing: border-box;
+  font-size: 0.7rem;
+  align-items: center;
 }
-
-.btn {
+#username,
+#password {
   width: 100%;
+}
+.btn {
+  width: 100px;
   height: auto;
 }
 
@@ -125,7 +131,7 @@ hr {
   border: none;
 }
 
-.list-group-item:first-child {
+/* .list-group-item:first-child {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -133,11 +139,12 @@ hr {
 .list-group-item:last-child {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-}
+} */
 
 .list-group {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid green;
 }
 
 .table,
@@ -147,6 +154,11 @@ hr {
   width: 100%;
   margin-bottom: 20px;
 }
+
+/* Custom CSS for alternating row colors */
+/* .table-striped tbody tr:nth-child(odd) {
+  background-color: #2c786c;
+} */
 
 small {
   text-align: center;

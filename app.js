@@ -12,6 +12,10 @@ const isAuthenticated = require("./auth/authMiddleware");
 const bcrypt = require("bcrypt");
 const path = require("path");
 
+//Import Routes
+const loginRoutes = require("./routes/loginRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+
 dotenv.config();
 
 const app = express();
@@ -67,61 +71,64 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
+//Routes Setup
+app.use(loginRoutes);
+
 app.get("/", (req, res) => {
   res.render("index", { title: "Penny Pal" });
 });
 
-app.get("/login", (req, res) => {
-  res.render("login", { title: "Login" });
-});
+// app.get("/login", (req, res) => {
+//   res.render("login", { title: "Login" });
+// });
 
-app.post("/login", (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.redirect("/login");
-    }
-    req.logIn(user, (err) => {
-      if (err) {
-        return next(err);
-      }
-      return res.redirect("/dashboard");
-    });
-  })(req, res, next);
-});
+// app.post("/login", (req, res, next) => {
+//   passport.authenticate("local", (err, user, info) => {
+//     if (err) {
+//       return next(err);
+//     }
+//     if (!user) {
+//       return res.redirect("/login");
+//     }
+//     req.logIn(user, (err) => {
+//       if (err) {
+//         return next(err);
+//       }
+//       return res.redirect("/dashboard");
+//     });
+//   })(req, res, next);
+// });
 
-// Logout route
-app.get("/logout", (req, res) => {
-  req.logout(function (err) {
-    if (err) {
-      console.error("Error logging out:", err);
-      res.status(500).send("Error logging out");
-    } else {
-      res.redirect("/login");
-    }
-  });
-});
+// // Logout route
+// app.get("/logout", (req, res) => {
+//   req.logout(function (err) {
+//     if (err) {
+//       console.error("Error logging out:", err);
+//       res.status(500).send("Error logging out");
+//     } else {
+//       res.redirect("/login");
+//     }
+//   });
+// });
 
-app.get("/register", (req, res) => {
-  res.render("register", { title: "Register" });
-});
+// app.get("/register", (req, res) => {
+//   res.render("register", { title: "Register" });
+// });
 
-app.post("/register", async (req, res) => {
-  try {
-    const { name, username, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ name, username, password: hashedPassword });
-    await user.save();
-    res.redirect("/verification-pending");
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .render("error", { title: "Error", message: "Failed to register user" });
-  }
-});
+// app.post("/register", async (req, res) => {
+//   try {
+//     const { name, username, password } = req.body;
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     const user = new User({ name, username, password: hashedPassword });
+//     await user.save();
+//     res.redirect("/verification-pending");
+//   } catch (err) {
+//     console.error(err);
+//     res
+//       .status(500)
+//       .render("error", { title: "Error", message: "Failed to register user" });
+//   }
+// });
 
 const getTotalAmount = (accounts, type) => {
   return accounts.reduce((total, account) => {
@@ -144,8 +151,6 @@ app.get("/dashboard", isAuthenticated, async (req, res, next) => {
       savings,
       debt,
       accounts,
-      getTotalDebtAmount,
-      getTotalSavingsAmount,
       getTotalAmount,
     });
   } catch (err) {

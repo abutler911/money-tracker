@@ -1,30 +1,28 @@
-<!-- edit-accounts.ejs -->
-
 <div class="container">
-  <div class="accounts-list">
-    <h2>Accounts</h2>
-    <ul>
-      <% accounts.forEach(account => { %>
-      <li><%= account.name %>: <%= account.amount %></li>
-      <% }); %>
-    </ul>
-  </div>
-
-  <div class="edit-accounts-form">
-    <h2>Edit Accounts</h2>
-    <form action="/update-accounts" method="post">
-      <% accounts.forEach(account => { %>
-      <div class="form-group">
-        <label for="<%= account.name %>"><%= account.name %>:</label>
-        <input
-          type="number"
-          id="<%= account.name %>"
-          name="<%= account.name %>"
-          value="<%= account.amount %>"
-        />
+  <div class="row">
+    <div class="col-md-12">
+      <div class="edit-accounts-form">
+        <h2>Edit Accounts</h2>
+        <form
+          action="/update-accounts/<%= account.type %>/<%= account._id %>"
+          method="post"
+        >
+          <% accounts.forEach(account => { %>
+          <div class="form-group">
+            <label for="<%= account.accountName %>"
+              ><%= account.accountName %>:</label
+            >
+            <input
+              type="number"
+              id="<%= account.accountName %>"
+              name="<%= account.accountName %>"
+              value="<%= account.amount %>"
+            />
+          </div>
+          <% }); %>
+          <button type="submit" class="btn btn-primary">Update Accounts</button>
+        </form>
       </div>
-      <% }); %>
-      <button type="submit" class="btn btn-primary">Update Accounts</button>
-    </form>
+    </div>
   </div>
 </div>

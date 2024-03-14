@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const savingsSchema = new mongoose.Schema({
+const accountSchema = new mongoose.Schema({
   amount: {
     type: Number,
     required: true,
@@ -13,8 +13,13 @@ const savingsSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  type: {
+    type: String,
+    enum: ["debt", "savings"],
+    required: true,
+  },
 });
 
-const Savings = mongoose.model("Savings", savingsSchema);
+const Account = mongoose.model("Account", accountSchema);
 
-module.exports = Savings;
+module.exports = Account;

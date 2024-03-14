@@ -8,7 +8,7 @@
     <ul class="list-group">
       <% unverifiedUsers.forEach(user => { %>
       <li class="list-group-item">
-        <%= user.name %> (<%= user.username %>)
+        Name: <%= user.name %>, Username: <%= user.username %>
         <form
           action="/verify-user/<%= user._id %>"
           method="POST"
@@ -25,17 +25,13 @@
 
   <!-- Other functionalities -->
   <div class="row">
-    <div class="col-4">
-      <form action="/add-debt" method="GET">
-        <button type="submit" class="btn btn-primary btn-block">Debt</button>
+    <h2>Manage Accounts</h2>
+    <div class="col-6">
+      <form action="/add-account" method="GET">
+        <button type="submit" class="btn btn-primary btn-block">Add</button>
       </form>
     </div>
-    <div class="col-4">
-      <form action="/add-savings" method="GET">
-        <button type="submit" class="btn btn-primary btn-block">Savings</button>
-      </form>
-    </div>
-    <div class="col-4">
+    <div class="col-6">
       <form action="/edit-accounts" method="GET">
         <button type="submit" class="btn btn-primary btn-block">Edit</button>
       </form>

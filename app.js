@@ -73,6 +73,9 @@ mongoose
 
 //Routes Setup
 app.use(loginRoutes);
+app.use(adminRoutes);
+
+//Routes
 
 app.get("/", (req, res) => {
   res.render("index", { title: "Penny Pal" });
@@ -158,105 +161,105 @@ app.get("/dashboard", isAuthenticated, async (req, res, next) => {
   }
 });
 
-app.get("/admin", isAuthenticated, async (req, res) => {
-  try {
-    // Fetch unverified users from the database
-    const unverifiedUsers = await User.find({ isVerified: false });
+// app.get("/admin", isAuthenticated, async (req, res) => {
+//   try {
+//     // Fetch unverified users from the database
+//     const unverifiedUsers = await User.find({ isVerified: false });
 
-    res.render("admin", {
-      title: "Admin",
-      unverifiedUsers: unverifiedUsers,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error fetching unverified users");
-  }
-});
+//     res.render("admin", {
+//       title: "Admin",
+//       unverifiedUsers: unverifiedUsers,
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Error fetching unverified users");
+//   }
+// });
 
-app.post("/verify-user/:userId", isAuthenticated, async (req, res) => {
-  try {
-    const userId = req.params.userId;
+// app.post("/verify-user/:userId", isAuthenticated, async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
 
-    // Update the user's verification status to true
-    await User.findByIdAndUpdate(userId, { isVerified: true });
+//     // Update the user's verification status to true
+//     await User.findByIdAndUpdate(userId, { isVerified: true });
 
-    // Redirect back to the admin page
-    res.redirect("/admin");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error verifying user");
-  }
-});
+//     // Redirect back to the admin page
+//     res.redirect("/admin");
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Error verifying user");
+//   }
+// });
 
-app.get("/edit-accounts", isAuthenticated, async (req, res) => {
-  if (req.user.isAdmin) {
-    try {
-      // Fetch savings and debt accounts from the database
-      const savings = await Savings.find({});
-      const debts = await Debt.find({});
+// app.get("/edit-accounts", isAuthenticated, async (req, res) => {
+//   if (req.user.isAdmin) {
+//     try {
+//       // Fetch savings and debt accounts from the database
+//       const savings = await Savings.find({});
+//       const debts = await Debt.find({});
 
-      // Add a 'type' property to each account
-      const savingsWithType = savings.map((account) => ({
-        ...account.toObject(),
-        type: "savings",
-      }));
-      const debtsWithType = debts.map((account) => ({
-        ...account.toObject(),
-        type: "debts",
-      }));
+//       // Add a 'type' property to each account
+//       const savingsWithType = savings.map((account) => ({
+//         ...account.toObject(),
+//         type: "savings",
+//       }));
+//       const debtsWithType = debts.map((account) => ({
+//         ...account.toObject(),
+//         type: "debts",
+//       }));
 
-      // Combine savings and debts into a single array
-      const accounts = [...savingsWithType, ...debtsWithType];
+//       // Combine savings and debts into a single array
+//       const accounts = [...savingsWithType, ...debtsWithType];
 
-      const user = req.user;
-      res.render("edit-accounts", {
-        title: "Edit Accounts",
-        user: user,
-        accounts: accounts,
-      });
-    } catch (error) {
-      console.error("Error fetching accounts:", error);
-      res.status(500).send("Internal Server Error");
-    }
-  } else {
-    res.status(403).send("You do not have permission to access this page.");
-  }
-});
+//       const user = req.user;
+//       res.render("edit-accounts", {
+//         title: "Edit Accounts",
+//         user: user,
+//         accounts: accounts,
+//       });
+//     } catch (error) {
+//       console.error("Error fetching accounts:", error);
+//       res.status(500).send("Internal Server Error");
+//     }
+//   } else {
+//     res.status(403).send("You do not have permission to access this page.");
+//   }
+// });
 
-app.get("/add-account", isAuthenticated, (req, res) => {
-  if (req.user.isAdmin) {
-    const user = req.user;
-    res.render("add-account", { title: "Add Account", user: user });
-  } else {
-    res.status(403).send("You do not have permission to access this page.");
-  }
-});
+// app.get("/add-account", isAuthenticated, (req, res) => {
+//   if (req.user.isAdmin) {
+//     const user = req.user;
+//     res.render("add-account", { title: "Add Account", user: user });
+//   } else {
+//     res.status(403).send("You do not have permission to access this page.");
+//   }
+// });
 
-app.post("/add-account", isAuthenticated, async (req, res) => {
-  try {
-    if (!req.user.isAdmin) {
-      return res
-        .status(403)
-        .send("You do not have permission to perform this action.");
-    }
-    const { accountName, amount, accountType } = req.body;
-    // Save the account with type
-    if (accountType === "savings" || accountType === "debt") {
-      const account = new Account({
-        accountName,
-        amount,
-        type: accountType, // Include the type of account
-      });
-      await account.save();
-      res.redirect("/dashboard");
-    } else {
-      res.status(400).send("Invalid account type.");
-    }
-  } catch (error) {
-    console.error("Error adding account:", error);
-    res.status(500).send("Failed to add account.");
-  }
-});
+// app.post("/add-account", isAuthenticated, async (req, res) => {
+//   try {
+//     if (!req.user.isAdmin) {
+//       return res
+//         .status(403)
+//         .send("You do not have permission to perform this action.");
+//     }
+//     const { accountName, amount, accountType } = req.body;
+//     // Save the account with type
+//     if (accountType === "savings" || accountType === "debt") {
+//       const account = new Account({
+//         accountName,
+//         amount,
+//         type: accountType, // Include the type of account
+//       });
+//       await account.save();
+//       res.redirect("/dashboard");
+//     } else {
+//       res.status(400).send("Invalid account type.");
+//     }
+//   } catch (error) {
+//     console.error("Error adding account:", error);
+//     res.status(500).send("Failed to add account.");
+//   }
+// });
 
 // app.post("/delete-saving/:id", isAuthenticated, async (req, res) => {
 //   try {

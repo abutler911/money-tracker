@@ -15,9 +15,11 @@
             <input
               type="number"
               id="<%= account.accountName %>"
-              name="<%= account.accountName %>"
+              name="amount_<%= account._id %>"
               value="<%= account.amount %>"
             />
+            <input type="hidden" name="accountId" value="<%= account._id %>" />
+            <!-- Add hidden input for account ID -->
           </div>
           <% }); %>
           <button type="submit" class="btn btn-primary">Update Accounts</button>

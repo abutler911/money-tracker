@@ -41,24 +41,12 @@ router.post("/verify-user/:userId", isAuthenticated, async (req, res) => {
 router.get("/edit-accounts", isAuthenticated, async (req, res) => {
   if (req.user.isAdmin) {
     try {
-      // Fetch savings and debt accounts from the database
-      const savings = await Savings.find({});
-      const debts = await Debt.find({});
-
-      // Add a 'type' property to each account
-      const savingsWithType = savings.map((account) => ({
-        ...account.toObject(),
-        type: "savings",
-      }));
-      const debtsWithType = debts.map((account) => ({
-        ...account.toObject(),
-        type: "debts",
-      }));
-
-      // Combine savings and debts into a single array
-      const accounts = [...savingsWithType, ...debtsWithType];
+      // Fetch all accounts from the database
+      const accounts = await Account.find({});
 
       const user = req.user;
+      console.log(accounts);
+
       res.render("edit-accounts", {
         title: "Edit Accounts",
         user: user,

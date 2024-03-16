@@ -19,7 +19,8 @@
       capitalizedUserName = user.name.charAt(0).toUpperCase() +
       user.name.slice(1); %>
       <h1 class="fs-1">
-        Welcome to PennyPal, <br /><%= capitalizedUserName %>!
+        Hi, <%= capitalizedUserName %>! <br />
+        Welcome to PennyPal!
       </h1>
     </div>
     <hr />
@@ -28,7 +29,7 @@
   <div class="row">
     <div class="col-md-6">
       <div class="savings">
-        <h2>Savings</h2>
+        <h2 class="category-title">Investment Accounts</h2>
         <h3>
           Total: $<%= getTotalAmount(accounts, 'savings').toLocaleString() %>
         </h3>
@@ -79,7 +80,7 @@
 
     <div class="col-md-6">
       <div class="debt">
-        <h2>Debt</h2>
+        <h2 class="category-title">Debt Accounts</h2>
         <h3>
           Total: $<%= getTotalAmount(accounts, 'debt').toLocaleString() %>
         </h3>

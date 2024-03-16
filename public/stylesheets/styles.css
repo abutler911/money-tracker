@@ -80,6 +80,11 @@ a {
   padding: 5px;
   font-size: 1.3rem;
 }
+
+.category-title {
+  font-size: 2rem;
+  font-weight: 600;
+}
 p,
 label {
   color: #6c757d;

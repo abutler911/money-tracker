@@ -45,7 +45,8 @@
             </thead>
             <tbody>
               <% const savingsAccounts = accounts.filter(account => account.type
-              === 'savings'); %> <% savingsAccounts.forEach(account => { %>
+              === 'savings').sort((a, b) => b.amount - a.amount); %> <%
+              savingsAccounts.forEach(account => { %>
               <tr>
                 <td><%= account.accountName %></td>
                 <td>
@@ -95,7 +96,8 @@
             </thead>
             <tbody>
               <% const debtAccounts = accounts.filter(account => account.type
-              === 'debt'); %> <% debtAccounts.forEach(account => { %>
+              === 'debt').sort((a, b) => b.amount - a.amount); %> <%
+              debtAccounts.forEach(account => { %>
               <tr>
                 <td><%= account.accountName %></td>
                 <td>

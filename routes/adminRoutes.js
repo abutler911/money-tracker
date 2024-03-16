@@ -37,60 +37,6 @@ router.post("/verify-user/:userId", isAuthenticated, async (req, res) => {
   }
 });
 
-// Edit accounts route
-router.get("/edit-accounts", isAuthenticated, async (req, res) => {
-  if (req.user.isAdmin) {
-    try {
-      // Fetch all accounts from the database
-      const accounts = await Account.find({});
-
-      const user = req.user;
-      console.log(accounts);
-
-      res.render("edit-accounts", {
-        title: "Edit Accounts",
-        user: user,
-        accounts: accounts,
-      });
-    } catch (error) {
-      console.error("Error fetching accounts:", error);
-      res.status(500).send("Internal Server Error");
-    }
-  } else {
-    res.status(403).send("You do not have permission to access this page.");
-  }
-});
-
-router.post("/update-account", isAuthenticated, async (req, res) => {
-  try {
-    console.log("Received data:", req.body);
-
-    const { accountId, newAmount } = req.body;
-
-    if (!accountId || !newAmount) {
-      console.error(
-        "Invalid data format: accountId and newAmount are required."
-      );
-      return res
-        .status(400)
-        .send("Invalid data format: accountId and newAmount are required.");
-    }
-
-    // Assuming amounts are stored as numbers in your database.
-    // If not, remove the parseFloat conversion.
-    const updatedAmount = parseFloat(newAmount);
-
-    console.log("accountId:", accountId, "updatedAmount:", updatedAmount);
-    await Account.findByIdAndUpdate(accountId, { amount: updatedAmount });
-
-    res.status(200).send("Account amount updated successfully.");
-  } catch (error) {
-    console.error("Error updating account:", error);
-    res.status(500).send("Internal Server Error");
-  }
-});
-
-// Add account route
 router.get("/add-account", isAuthenticated, (req, res) => {
   if (req.user.isAdmin) {
     const user = req.user;
@@ -101,7 +47,59 @@ router.get("/add-account", isAuthenticated, (req, res) => {
 });
 
 router.post("/add-account", isAuthenticated, async (req, res) => {
-  // Add account logic
+  try {
+    const { accountName, amount, accountType } = req.body;
+
+    // Input Validation (adjust as needed)
+    if (!accountName || !amount || !accountType) {
+      return res
+        .status(400)
+        .send("Missing required fields: accountName, amount, or accountType");
+    }
+
+    // Assuming amounts are stored as numbers.  Convert if needed.
+    const parsedAmount = parseFloat(amount);
+
+    // Create a new Account object using your Mongoose model
+    const newAccount = new Account({
+      accountName: accountName,
+      amount: parsedAmount,
+      type: accountType,
+      userId: req.user._id, // Associate with the current user
+    });
+
+    // Save the account to the database
+    await newAccount.save();
+
+    // Redirect for success: Choose where to redirect
+    res.redirect("/dashboard"); // Replace '/dashboard' with the appropriate route
+  } catch (error) {
+    console.error("Error adding account:", error);
+    res.status(500).send("Error adding account. Please try again.");
+  }
+});
+
+router.post("/delete-account/:accountId", isAuthenticated, async (req, res) => {
+  try {
+    const accountId = req.params.accountId;
+
+    // Check if accountId is provided
+    if (!accountId) {
+      console.error("Invalid data format: accountId is required.");
+      return res
+        .status(400)
+        .send("Invalid data format: accountId is required.");
+    }
+
+    // Find the account by _id and delete it
+    await Account.findByIdAndDelete(accountId);
+
+    // Respond with a success message
+    res.status(200).redirect("/dashboard");
+  } catch (error) {
+    console.error("Error deleting account:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 module.exports = router;

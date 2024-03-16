@@ -6,3 +6,5 @@ function trimInputs() {
   usernameInput.value = usernameInput.value.trim();
   passwordInput.value = passwordInput.value.trim();
 }
+
+// Example client-side JavaScript code

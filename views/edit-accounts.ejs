@@ -1,30 +1,53 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="edit-accounts-form">
-        <h2>Edit Accounts</h2>
-        <form
-          action="/update-accounts/<%= account.type %>/<%= account._id %>"
-          method="post"
-        >
-          <% accounts.forEach(account => { %>
-          <div class="form-group">
-            <label for="<%= account.accountName %>"
-              ><%= account.accountName %>:</label
-            >
-            <input
-              type="number"
-              id="<%= account.accountName %>"
-              name="amount_<%= account._id %>"
-              value="<%= account.amount %>"
-            />
-            <input type="hidden" name="accountId" value="<%= account._id %>" />
-            <!-- Add hidden input for account ID -->
-          </div>
-          <% }); %>
-          <button type="submit" class="btn btn-primary">Update Accounts</button>
-        </form>
-      </div>
-    </div>
-  </div>
+<h1><%= title %></h1>
+<p>Welcome, <%= user.username %>!</p>
+
+<div>
+  <% if (accounts.length > 0) { %>
+  <ul>
+    <% accounts.forEach(account => { %>
+    <li>
+      <span><%= account.accountName %>:</span>
+      <input type="number" name="amount" value="<%= account.amount %>" />
+    </li>
+    <% }); %>
+  </ul>
+  <button id="updateBtn">Update All Amounts</button>
+  <% } else { %>
+  <p>No accounts found.</p>
+  <% } %>
 </div>
+
+<script>
+  document.getElementById("updateBtn").addEventListener("click", function () {
+    // Gather updated amounts
+    const updatedAccounts = [];
+    document.querySelectorAll('input[name="amount"]').forEach((input) => {
+      updatedAccounts.push({
+        name: input.previousSibling.textContent.trim(), // Get account name
+        amount: input.value,
+      });
+    });
+
+    console.log("Updated accounts:", updatedAccounts); // Log updatedAccounts for debugging
+
+    // Send updated accounts data to the server
+    fetch("/update-accounts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedAccounts), // Send the data as JSON string
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("Accounts updated successfully!");
+        } else {
+          throw new Error("Failed to update accounts");
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating accounts:", error);
+        alert("Failed to update accounts. Please try again later.");
+      });
+  });
+</script>

@@ -61,6 +61,35 @@ router.get("/edit-accounts", isAuthenticated, async (req, res) => {
   }
 });
 
+router.post("/update-account", isAuthenticated, async (req, res) => {
+  try {
+    console.log("Received data:", req.body);
+
+    const { accountId, newAmount } = req.body;
+
+    if (!accountId || !newAmount) {
+      console.error(
+        "Invalid data format: accountId and newAmount are required."
+      );
+      return res
+        .status(400)
+        .send("Invalid data format: accountId and newAmount are required.");
+    }
+
+    // Assuming amounts are stored as numbers in your database.
+    // If not, remove the parseFloat conversion.
+    const updatedAmount = parseFloat(newAmount);
+
+    console.log("accountId:", accountId, "updatedAmount:", updatedAmount);
+    await Account.findByIdAndUpdate(accountId, { amount: updatedAmount });
+
+    res.status(200).send("Account amount updated successfully.");
+  } catch (error) {
+    console.error("Error updating account:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 // Add account route
 router.get("/add-account", isAuthenticated, (req, res) => {
   if (req.user.isAdmin) {

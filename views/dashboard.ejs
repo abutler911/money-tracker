@@ -1,13 +1,11 @@
 <div class="container mt-5">
   <div class="row mb-4">
     <div class="col-6">
-      <!-- Logout button -->
       <form action="/logout" method="GET">
         <button type="submit" class="btn btn-primary">Logout</button>
       </form>
     </div>
     <div class="col-6">
-      <!-- Render admin button if the user is an admin -->
       <% if (user.isAdmin) { %>
       <form action="/admin" method="GET">
         <button type="submit" class="btn btn-primary">Admin</button>
@@ -34,7 +32,6 @@
         <h3>
           Total: $<%= getTotalAmount(accounts, 'savings').toLocaleString() %>
         </h3>
-        <!-- Savings accounts table -->
         <div class="table-responsive">
           <table class="table table-striped">
             <thead>
@@ -51,7 +48,14 @@
               === 'savings'); %> <% savingsAccounts.forEach(account => { %>
               <tr>
                 <td><%= account.accountName %></td>
-                <td>$<%= account.amount.toLocaleString() %></td>
+                <td>
+                  <a
+                    href="#"
+                    class="amount-link"
+                    data-account-id="<%= account._id %>"
+                    >$<%= account.amount.toLocaleString() %></a
+                  >
+                </td>
                 <% if (user.isAdmin) { %>
                 <td>
                   <form
@@ -78,7 +82,6 @@
         <h3>
           Total: $<%= getTotalAmount(accounts, 'debt').toLocaleString() %>
         </h3>
-        <!-- Debt accounts table -->
         <div class="table-responsive">
           <table class="table table-striped">
             <thead>
@@ -95,7 +98,14 @@
               === 'debt'); %> <% debtAccounts.forEach(account => { %>
               <tr>
                 <td><%= account.accountName %></td>
-                <td>$<%= account.amount.toLocaleString() %></td>
+                <td>
+                  <a
+                    href="#"
+                    class="amount-link"
+                    data-account-id="<%= account._id %>"
+                    >$<%= account.amount.toLocaleString() %></a
+                  >
+                </td>
                 <% if (user.isAdmin) { %>
                 <td>
                   <form
@@ -117,3 +127,45 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("amount-link")) {
+      event.preventDefault(); // Prevent the link's default behavior
+
+      const linkElement = event.target;
+      const accountId = linkElement.dataset.accountId;
+      const originalAmount = parseFloat(
+        linkElement.textContent.replace(/[^0-9.]/g, "")
+      );
+
+      // Create input field and update button
+      const inputField = document.createElement("input");
+      inputField.type = "number";
+      inputField.value = originalAmount;
+      inputField.classList.add("form-control");
+
+      const updateButton = document.createElement("button");
+      updateButton.textContent = "Update";
+      updateButton.classList.add("btn", "btn-primary");
+
+      // Build the form
+      const form = document.createElement("form");
+      form.action = "/update-account";
+      form.method = "POST";
+
+      const accountIdInput = document.createElement("input");
+      accountIdInput.type = "hidden";
+      accountIdInput.name = "accountId";
+      accountIdInput.value = accountId;
+
+      form.appendChild(accountIdInput);
+      form.appendChild(inputField);
+      form.appendChild(updateButton);
+
+      // Replace the link with the form
+      linkElement.parentNode.replaceChild(form, linkElement);
+      inputField.focus();
+    }
+  });
+</script>

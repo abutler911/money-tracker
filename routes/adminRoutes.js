@@ -79,11 +79,30 @@ router.post("/add-account", isAuthenticated, async (req, res) => {
   }
 });
 
+// Assuming you have an instance of Express called 'app'
+router.post("/update-account", async (req, res) => {
+  const accountId = req.body.accountId;
+  const newAmount = req.body.newAmount;
+
+  try {
+    const updatedAccount = await Account.findByIdAndUpdate(
+      accountId,
+      { amount: newAmount },
+      { new: true }
+    );
+
+    res.redirect("/dashboard");
+  } catch (err) {
+    console.error("Error updating account:", err);
+
+    res.status(500).send("Error updating account");
+  }
+});
+
 router.post("/delete-account/:accountId", isAuthenticated, async (req, res) => {
   try {
     const accountId = req.params.accountId;
 
-    // Check if accountId is provided
     if (!accountId) {
       console.error("Invalid data format: accountId is required.");
       return res

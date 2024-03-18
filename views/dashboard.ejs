@@ -57,9 +57,18 @@
                     data-account-id="<%= account._id %>"
                     >$<%= account.amount.toLocaleString() %></a
                   >
+                  <input
+                    type="number"
+                    class="form-control update-amount"
+                    data-account-id="<%= account._id %>"
+                    style="display: none"
+                  />
                 </td>
                 <% if (user.isAdmin) { %>
                 <td>
+                  <!-- <button type="button" class="btn btn-primary edit-amount">
+                    Edit
+                  </button> -->
                   <form
                     action="/delete-account/<%= account._id %>"
                     method="POST"
@@ -132,43 +141,45 @@
 </div>
 
 <script>
-  document.addEventListener("click", function (event) {
-    if (event.target.classList.contains("amount-link")) {
-      event.preventDefault(); // Prevent the link's default behavior
+  document.addEventListener("DOMContentLoaded", function () {
+    const amountLinks = document.querySelectorAll(".amount-link");
 
-      const linkElement = event.target;
-      const accountId = linkElement.dataset.accountId;
-      const originalAmount = parseFloat(
-        linkElement.textContent.replace(/[^0-9.]/g, "")
-      );
+    amountLinks.forEach((link) => {
+      link.addEventListener("click", function (event) {
+        event.preventDefault();
 
-      // Create input field and update button
-      const inputField = document.createElement("input");
-      inputField.type = "number";
-      inputField.value = originalAmount;
-      inputField.classList.add("form-control");
+        const accountId = this.getAttribute("data-account-id");
+        const newAmount = prompt("Enter the new amount:");
 
-      const updateButton = document.createElement("button");
-      updateButton.textContent = "Update";
-      updateButton.classList.add("btn", "btn-primary");
+        // Check if newAmount is null or empty (user clicked cancel)
+        if (newAmount === null || newAmount === "") {
+          return; // Exit the function without sending the request
+        }
 
-      // Build the form
-      const form = document.createElement("form");
-      form.action = "/update-account";
-      form.method = "POST";
+        const formData = new FormData();
+        formData.append("accountId", accountId);
+        formData.append("newAmount", newAmount);
 
-      const accountIdInput = document.createElement("input");
-      accountIdInput.type = "hidden";
-      accountIdInput.name = "accountId";
-      accountIdInput.value = accountId;
-
-      form.appendChild(accountIdInput);
-      form.appendChild(inputField);
-      form.appendChild(updateButton);
-
-      // Replace the link with the form
-      linkElement.parentNode.replaceChild(form, linkElement);
-      inputField.focus();
-    }
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/update-account");
+        xhr.setRequestHeader(
+          "Content-Type",
+          "application/x-www-form-urlencoded"
+        );
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            window.location.href = "/dashboard";
+          } else {
+            console.error("Error updating account:", xhr.statusText);
+            alert("Error updating account. Please try again later.");
+          }
+        };
+        xhr.onerror = function () {
+          console.error("Request failed");
+          alert("Error updating account. Please try again later.");
+        };
+        xhr.send(new URLSearchParams(formData));
+      });
+    });
   });
 </script>

@@ -109,30 +109,6 @@ app.get("/dashboard", isAuthenticated, async (req, res, next) => {
   }
 });
 
-// app.post("/update-accounts/:type/:id", isAuthenticated, async (req, res) => {
-//   try {
-//     if (!req.user.isAdmin) {
-//       return res
-//         .status(403)
-//         .send("You do not have permission to perform this action.");
-//     }
-
-//     const { type, id } = req.params;
-//     const { newAmount } = req.body;
-
-//     // Update the amount for the specified account
-//     await Account.findByIdAndUpdate(id, { amount: newAmount });
-//     res.redirect("/dashboard");
-//   } catch (error) {
-//     console.error(`Error updating ${type}:`, error);
-//     res.status(500).send(`Failed to update ${type}.`);
-//   }
-// });
-
-app.get("/verification-pending", (req, res) => {
-  res.render("verification-pending", { title: "Verification Pending" });
-});
-
 app.use((err, req, res, next) => {
   console.error(err);
   if (err.name === "UnauthorizedError") {

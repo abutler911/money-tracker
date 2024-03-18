@@ -121,4 +121,8 @@ router.post("/delete-account/:accountId", isAuthenticated, async (req, res) => {
   }
 });
 
+router.get("/verification-pending", (req, res) => {
+  res.render("verification-pending", { title: "Verification Pending" });
+});
+
 module.exports = router;

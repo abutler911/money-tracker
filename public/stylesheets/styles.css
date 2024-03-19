@@ -215,14 +215,22 @@ hr {
 }
 
 .list-group-item {
-  background-color: #fff;
+  background-color: #c5dbca;
   border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .list-group {
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border: 2px solid green;
+}
+
+.user-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-details {
+  flex-grow: 1;
 }
 
 .table {

@@ -1,21 +1,4 @@
 <div class="container mt-5">
-  <div class="row mb-4">
-    <div class="col-4">
-      <form action="/logout" method="GET">
-        <button type="submit" class="btn btn-primary">Logout</button>
-      </form>
-    </div>
-    <div class="col-4">
-      <% if (user.isAdmin) { %>
-      <form action="/admin" method="GET">
-        <button type="submit" class="btn btn-primary">Admin</button>
-      </form>
-      <% } %>
-    </div>
-    <div class="col-4">
-      <button id="dark-mode-toggle" class="btn btn-primary">Dark</button>
-    </div>
-  </div>
   <div class="row">
     <div class="col-12">
       <% // Capitalize the first letter of the user's name %> <% const
@@ -27,6 +10,23 @@
       </h1>
     </div>
     <hr />
+    <div class="row mb-4">
+      <div class="col-4">
+        <form action="/logout" method="GET">
+          <button type="submit" class="btn btn-primary">Logout</button>
+        </form>
+      </div>
+      <div class="col-4">
+        <% if (user.isAdmin) { %>
+        <form action="/admin" method="GET">
+          <button type="submit" class="btn btn-primary">Admin</button>
+        </form>
+        <% } %>
+      </div>
+      <div class="col-4">
+        <button id="dark-mode-toggle" class="btn btn-primary">Dark</button>
+      </div>
+    </div>
     <h2 class="text-center">Pending Income</h2>
     <ul>
       <li class="text-start">
@@ -154,6 +154,7 @@
 </div>
 
 <script>
+  // Wait for the DOM content to be fully loaded
   document.addEventListener("DOMContentLoaded", function () {
     const amountLinks = document.querySelectorAll(".amount-link");
 
@@ -194,9 +195,7 @@
         xhr.send(new URLSearchParams(formData));
       });
     });
-  });
 
-  document.addEventListener("DOMContentLoaded", function () {
     const darkModeToggle = document.getElementById("dark-mode-toggle");
 
     darkModeToggle.addEventListener("click", function () {

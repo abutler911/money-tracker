@@ -1,0 +1,1 @@
+error: 500 - It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`. - /dashboard - GET - ::ffff:127.0.0.1 {"timestamp":"2024-03-19T16:22:06.368Z"}

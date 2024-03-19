@@ -11,7 +11,7 @@ const User = require("./models/user");
 const isAuthenticated = require("./auth/authMiddleware");
 const bcrypt = require("bcrypt");
 const path = require("path");
-const helmet = require("helmet");
+
 const logger = require("./utils/logger");
 const rateLimit = require("express-rate-limit");
 
@@ -23,12 +23,12 @@ dotenv.config();
 
 const app = express();
 
-app.use(helmet());
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
   message: "Too many requests from this IP, please try again later",
 });
+
 app.use(limiter);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");

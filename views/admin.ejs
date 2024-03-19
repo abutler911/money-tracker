@@ -2,6 +2,7 @@
   <h1 class="mt-5 text-center mb-6">Admin Page</h1>
   <hr />
 
+  <% if (unverifiedUsers.length > 0) { %>
   <!-- Display unverified users -->
   <div class="unverified-users">
     <h2>Unverified Users</h2>
@@ -20,20 +21,27 @@
       <% }); %>
     </ul>
   </div>
-
   <hr />
+  <% } %>
 
   <!-- Other functionalities -->
   <div class="row">
     <h2>Manage Accounts</h2>
-    <div class="col-6">
+    <div class="col-4">
       <form action="/add-account" method="GET">
         <button type="submit" class="btn btn-primary btn-block">Add</button>
       </form>
     </div>
-    <div class="col-6">
+    <div class="col-4">
       <form action="/edit-accounts" method="GET">
         <button type="submit" class="btn btn-primary btn-block">Edit</button>
+      </form>
+    </div>
+    <div class="col-4">
+      <form action="/dashboard" method="GET">
+        <button type="submit" class="btn btn-primary btn-block">
+          Dashboard
+        </button>
       </form>
     </div>
   </div>

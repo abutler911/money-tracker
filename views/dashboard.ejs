@@ -1,16 +1,19 @@
 <div class="container mt-5">
   <div class="row mb-4">
-    <div class="col-6">
+    <div class="col-4">
       <form action="/logout" method="GET">
         <button type="submit" class="btn btn-primary">Logout</button>
       </form>
     </div>
-    <div class="col-6">
+    <div class="col-4">
       <% if (user.isAdmin) { %>
       <form action="/admin" method="GET">
         <button type="submit" class="btn btn-primary">Admin</button>
       </form>
       <% } %>
+    </div>
+    <div class="col-4">
+      <button id="dark-mode-toggle" class="btn btn-primary">Dark</button>
     </div>
   </div>
   <div class="row">
@@ -191,5 +194,24 @@
         xhr.send(new URLSearchParams(formData));
       });
     });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const darkModeToggle = document.getElementById("dark-mode-toggle");
+
+    darkModeToggle.addEventListener("click", function () {
+      // Toggle dark mode class on the body
+      document.body.classList.toggle("dark-mode");
+
+      // Store the user's preference in localStorage
+      const isDarkMode = document.body.classList.contains("dark-mode");
+      localStorage.setItem("darkMode", isDarkMode);
+    });
+
+    // Check if user has a preference for dark mode in localStorage
+    const isDarkMode = localStorage.getItem("darkMode") === "true";
+    if (isDarkMode) {
+      document.body.classList.add("dark-mode");
+    }
   });
 </script>

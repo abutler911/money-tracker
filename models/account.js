@@ -18,6 +18,18 @@ const accountSchema = new mongoose.Schema({
     enum: ["debt", "savings"],
     required: true,
   },
+  history: [
+    {
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+      amount: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
 });
 
 const Account = mongoose.model("Account", accountSchema);

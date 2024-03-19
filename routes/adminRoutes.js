@@ -10,10 +10,16 @@ router.get("/admin", isAuthenticated, isAdmin, async (req, res) => {
   try {
     // Fetch unverified users from the database
     const unverifiedUsers = await User.find({ isVerified: false });
+    const currentUsers = await User.find({ isVerified: true });
+    const adminUsers = await User.find({ isAdmin: true });
+    console.log("Unverified Users:", unverifiedUsers);
+    console.log("Current Users:", currentUsers);
 
     res.render("admin", {
       title: "Admin",
       unverifiedUsers: unverifiedUsers,
+      currentUsers: currentUsers,
+      adminUsers: adminUsers,
     });
   } catch (err) {
     console.error(err);
@@ -38,6 +44,66 @@ router.post(
     } catch (err) {
       console.error(err);
       res.status(500).send("Error verifying user");
+    }
+  }
+);
+
+router.post(
+  "/grant-admin/:userId",
+  isAuthenticated,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const userId = req.params.userId;
+
+      // Update the user's verification status to true
+      await User.findByIdAndUpdate(userId, { isAdmin: true });
+
+      // Redirect back to the admin page
+      res.redirect("/admin");
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error verifying user");
+    }
+  }
+);
+
+router.post(
+  "/revoke-access/:userId",
+  isAuthenticated,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const userId = req.params.userId;
+
+      // Update the user's verification status to true
+      await User.findByIdAndUpdate(userId, { isAdmin: false });
+
+      // Redirect back to the admin page
+      res.redirect("/admin");
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error verifying user");
+    }
+  }
+);
+
+router.post(
+  "/delete-user/:userId",
+  isAuthenticated,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const userId = req.params.userId;
+
+      // Delete the user from the database
+      await User.findByIdAndDelete(userId);
+
+      // Redirect back to the admin page
+      res.redirect("/admin");
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error deleting user");
     }
   }
 );

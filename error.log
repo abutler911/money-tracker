@@ -1,1 +1,28 @@
 error: 500 - It appears you have done something like `app.use(helmet)`, but it should be `app.use(helmet())`. - /dashboard - GET - ::ffff:127.0.0.1 {"timestamp":"2024-03-19T16:22:06.368Z"}
+error: 500 - D:\Dropbox\newSandbox\money-tracker\views\admin.ejs:39
+    37|   <div class="current-users">
+    38|     <h2 class="text-center mb-4">Current Users</h2>
+ >> 39|     <% if (currentUsers.length > 0) { %>
+    40|     <div class="row justify-content-center">
+    41|       <div class="col-md-8">
+    42|         <ul class="list-group">
+
+currentUsers is not defined - /admin? - GET - ::ffff:127.0.0.1 {"timestamp":"2024-03-19T18:28:49.258Z"}
+error: 500 - D:\Dropbox\newSandbox\money-tracker\views\admin.ejs:82
+    80|           <% }); %>
+    81|         </ul>
+ >> 82|         <form action="/grant-admin/<%= user._id %>" method="POST">
+    83|           <button type="submit" class="btn btn-primary btn-sm">Admin</button>
+    84|         </form>
+    85|       </div>
+
+user is not defined - /admin - GET - ::ffff:127.0.0.1 {"timestamp":"2024-03-19T18:47:52.239Z"}
+error: 500 - D:\Dropbox\newSandbox\money-tracker\views\admin.ejs:82
+    80|           <% }); %>
+    81|         </ul>
+ >> 82|         <form action="/grant-admin/<%= user._id %>" method="POST">
+    83|           <button type="submit" class="btn btn-primary btn-sm">Admin</button>
+    84|         </form>
+    85|       </div>
+
+user is not defined - /admin - GET - ::ffff:127.0.0.1 {"timestamp":"2024-03-19T18:48:19.317Z"}

@@ -10,23 +10,24 @@
       </h1>
     </div>
     <hr />
-    <div class="row mb-4">
-      <div class="col-4">
+    <div class="row mb-4 justify-content-center">
+      <div class="col-4 text-center">
         <form action="/logout" method="GET">
           <button type="submit" class="btn btn-primary">Logout</button>
         </form>
       </div>
-      <div class="col-4">
+      <div class="col-4 text-center">
         <% if (user.isAdmin) { %>
         <form action="/admin" method="GET">
           <button type="submit" class="btn btn-primary">Admin</button>
         </form>
         <% } %>
       </div>
-      <div class="col-4">
+      <div class="col-4 text-center">
         <button id="dark-mode-toggle" class="btn btn-primary">Dark</button>
       </div>
     </div>
+
     <h2 class="text-center">Pending Income</h2>
     <ul>
       <li class="text-start">

@@ -149,21 +149,21 @@ hr {
   background-color: #2c786c;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   padding: 5px;
-  font-size: 1em;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   text-align: center;
-  display: inline-block;
-  font-weight: bold;
+  /* display: inline-block; */
 }
 
 .btn-danger {
   background-color: #dc3545;
-  color: #000;
+  color: #fff;
   font-size: 1rem;
   font-weight: bold;
   border: none;
@@ -216,7 +216,7 @@ hr {
 
 .list-group-item {
   background-color: #c5dbca;
-  border: none;
+  border: 1px solid black;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -226,11 +226,13 @@ hr {
 
 .user-info {
   display: flex;
-  justify-content: space-between;
+  text-align: left;
+  font-size: 0.8rem;
 }
 
 .user-details {
   flex-grow: 1;
+  text-align: left;
 }
 
 .table {

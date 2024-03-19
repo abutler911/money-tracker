@@ -313,7 +313,9 @@ body.dark-mode .edit-amount {
   color: #fff;
 }
 body.dark-mode .btn-danger {
-  background-color: red;
+  color: #fff;
+  background-color: #333;
+  border: 1px solid red;
 }
 body.dark-mode .btn-primary:hover {
   background-color: #9cdbd3;
@@ -336,7 +338,6 @@ body.dark-mode h3 {
 
 body.dark-mode h1 {
   color: green;
-  font-weight: bold;
 }
 
 body.dark-mode hr {

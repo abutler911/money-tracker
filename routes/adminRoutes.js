@@ -6,7 +6,7 @@ const isAuthenticated = require("../auth/authMiddleware");
 const router = express.Router();
 
 // Admin dashboard route
-router.get("/admin", isAuthenticated, async (req, res) => {
+router.get("/admin", isAuthenticated, isAdmin, async (req, res) => {
   try {
     // Fetch unverified users from the database
     const unverifiedUsers = await User.find({ isVerified: false });
@@ -22,22 +22,27 @@ router.get("/admin", isAuthenticated, async (req, res) => {
 });
 
 // Verify user route
-router.post("/verify-user/:userId", isAuthenticated, async (req, res) => {
-  try {
-    const userId = req.params.userId;
+router.post(
+  "/verify-user/:userId",
+  isAuthenticated,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const userId = req.params.userId;
 
-    // Update the user's verification status to true
-    await User.findByIdAndUpdate(userId, { isVerified: true });
+      // Update the user's verification status to true
+      await User.findByIdAndUpdate(userId, { isVerified: true });
 
-    // Redirect back to the admin page
-    res.redirect("/admin");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error verifying user");
+      // Redirect back to the admin page
+      res.redirect("/admin");
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error verifying user");
+    }
   }
-});
+);
 
-router.get("/add-account", isAuthenticated, (req, res) => {
+router.get("/add-account", isAuthenticated, isAdmin, (req, res) => {
   if (req.user.isAdmin) {
     const user = req.user;
     res.render("add-account", { title: "Add Account", user: user });
@@ -46,7 +51,7 @@ router.get("/add-account", isAuthenticated, (req, res) => {
   }
 });
 
-router.post("/add-account", isAuthenticated, async (req, res) => {
+router.post("/add-account", isAuthenticated, isAdmin, async (req, res) => {
   try {
     const { accountName, amount, accountType } = req.body;
 
@@ -80,7 +85,7 @@ router.post("/add-account", isAuthenticated, async (req, res) => {
 });
 
 // Assuming you have an instance of Express called 'app'
-router.post("/update-account", async (req, res) => {
+router.post("/update-account", isAuthenticated, isAdmin, async (req, res) => {
   const accountId = req.body.accountId;
   const newAmount = req.body.newAmount;
 
@@ -99,30 +104,43 @@ router.post("/update-account", async (req, res) => {
   }
 });
 
-router.post("/delete-account/:accountId", isAuthenticated, async (req, res) => {
-  try {
-    const accountId = req.params.accountId;
+router.post(
+  "/delete-account/:accountId",
+  isAuthenticated,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const accountId = req.params.accountId;
 
-    if (!accountId) {
-      console.error("Invalid data format: accountId is required.");
-      return res
-        .status(400)
-        .send("Invalid data format: accountId is required.");
+      if (!accountId) {
+        console.error("Invalid data format: accountId is required.");
+        return res
+          .status(400)
+          .send("Invalid data format: accountId is required.");
+      }
+
+      // Find the account by _id and delete it
+      await Account.findByIdAndDelete(accountId);
+
+      // Respond with a success message
+      res.status(200).redirect("/dashboard");
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      res.status(500).send("Internal Server Error");
     }
-
-    // Find the account by _id and delete it
-    await Account.findByIdAndDelete(accountId);
-
-    // Respond with a success message
-    res.status(200).redirect("/dashboard");
-  } catch (error) {
-    console.error("Error deleting account:", error);
-    res.status(500).send("Internal Server Error");
   }
-});
+);
 
 router.get("/verification-pending", (req, res) => {
   res.render("verification-pending", { title: "Verification Pending" });
 });
+
+function isAdmin(req, res, next) {
+  if (req.user.isAdmin) {
+    return next();
+  } else {
+    res.status(403).send("You do not have permission to access this page.");
+  }
+}
 
 module.exports = router;

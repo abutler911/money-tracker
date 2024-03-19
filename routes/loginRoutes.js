@@ -2,15 +2,27 @@ const express = require("express");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
+const { check, validationResult } = require("express-validator");
 
 const router = express.Router();
 
+const loginValidationRules = () => {
+  return [
+    check("username").notEmpty().withMessage("Username is required"),
+    check("password").notEmpty().withMessage("Password is required"),
+  ];
+};
 // Login route
 router.get("/login", (req, res) => {
   res.render("login", { title: "Login" });
 });
 
-router.post("/login", (req, res, next) => {
+router.post("/login", loginValidationRules(), async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       return next(err);

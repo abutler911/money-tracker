@@ -11,6 +11,9 @@ const User = require("./models/user");
 const isAuthenticated = require("./auth/authMiddleware");
 const bcrypt = require("bcrypt");
 const path = require("path");
+const helmet = require("helmet");
+const logger = require("./utils/logger");
+const rateLimit = require("express-rate-limit");
 
 //Import Routes
 const loginRoutes = require("./routes/loginRoutes");
@@ -20,6 +23,13 @@ dotenv.config();
 
 const app = express();
 
+app.use(helmet());
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again later",
+});
+app.use(limiter);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -110,16 +120,22 @@ app.get("/dashboard", isAuthenticated, async (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  console.error(err);
+  // Log the error using Winston
+  logger.error(
+    `${err.status || 500} - ${err.message} - ${req.originalUrl} - ${
+      req.method
+    } - ${req.ip}`
+  );
+
   if (err.name === "UnauthorizedError") {
-    res
+    return res
       .status(401)
       .render("error", { title: "Error", message: "Unauthorized Access!" });
-  } else {
-    res
-      .status(500)
-      .render("error", { title: "Error", message: "Something went wrong!" });
   }
+
+  res
+    .status(err.status || 500)
+    .json({ error: { message: err.message || "Something went wrong!" } });
 });
 
 const port = process.env.PORT || 3000;

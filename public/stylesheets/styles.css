@@ -1,7 +1,17 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
+:root {
+  /* Primary colors */
+  --danger-color: #ff0000;
+  --button-color: #2c786c;
+  --text-color: #2c786c;
+  --background-color: #eefcf9;
+  --white: #fff;
+  --black: #000;
+}
+
 body {
-  background-color: #eefcf9;
+  background-color: var(--background-color);
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
   line-height: 1.5;
@@ -14,7 +24,7 @@ body {
   max-width: 90%;
   margin: 100px auto 0 auto;
   padding: 50px 20px;
-  background-color: #fff;
+  background-color: var(--white);
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   text-align: center;
@@ -51,7 +61,7 @@ body {
 h1,
 h2,
 h3 {
-  color: #2c786c;
+  color: var(--text-color);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   transition: text-shadow 0.3s ease;
 }
@@ -72,7 +82,6 @@ h3 {
   font-weight: bold;
   font-size: 2em;
   border: 1px solid gray;
-  background-color: aliceblue;
   padding: 5px;
   width: 100%;
   border-radius: 5px;
@@ -81,14 +90,13 @@ h3 {
 }
 
 a {
-  color: #000;
+  color: var(--black);
   text-decoration: none;
-  /* padding: 5px; */
   font-size: 1rem;
 }
 
 .user-interaction {
-  color: #2c786c;
+  color: var(--button-color);
   font-weight: bold;
 }
 
@@ -98,7 +106,7 @@ a {
 
 p,
 label {
-  color: #6c757d;
+  color: var(--text-color);
 }
 
 .info-text {
@@ -110,9 +118,9 @@ label {
 }
 
 hr {
-  color: black;
-  background-color: black;
-  border: 1px solid black;
+  color: var(--black);
+  background-color: var(--black);
+  border: 1px solid var(--black);
   width: 100%;
 }
 
@@ -120,7 +128,7 @@ hr {
   margin-right: 10px;
   margin-bottom: 5px;
   padding: 5px;
-  border: 2px solid #2c786c;
+  border: 2px solid var(--button-color);
   border-radius: 5px;
   width: 100%;
   box-sizing: border-box;
@@ -135,7 +143,7 @@ hr {
   height: 50px;
   font-size: 1.5rem;
   padding: 10px;
-  border: 2px solid #2c786c;
+  border: 2px solid var(--button-color);
   border-radius: 5px;
   box-sizing: border-box;
 }
@@ -156,64 +164,34 @@ hr {
   padding: 5px;
   border-radius: 5px;
   width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 3px;
-  background-color: #fff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  background-color: var(--white);
 }
-/* .btn-primary {
-  background-color: #2c786c;
-  color: #fff;
-  border: none;
-  border-radius: 20px;
-  padding: 10px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  text-align: center;
-  }  */
-
-/* .delete-btn {
-  background-color: #dc3545;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 10px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  width: 100%;
-  height: auto;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-} */
 
 .revoke-btn,
-.delete-btn,
-.btn-primary {
-  background-color: #dc3545;
-  color: #fff;
+.delete-btn {
+  background-color: rgba(255, 0, 0, 0.1);
+  color: var(--black);
   font-size: 1rem;
   font-weight: bold;
-  border: none;
-  padding: 7px;
+  border: 1px solid var(--danger-color);
+  padding: 10px;
   border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
   width: 100%;
   height: auto;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   transition: box-shadow 0.3s ease;
 }
 
 .admin-btn {
-  background-color: #2c786c;
-  color: #fff;
+  background-color: var(--button-color);
+  color: var(--white);
   font-size: 1rem;
   font-weight: bold;
   border: none;
-  padding: 7px;
+  padding: 10px;
   border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
@@ -222,14 +200,11 @@ hr {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   transition: box-shadow 0.3s ease;
 }
-/* .delete-btn {
-  width: 50%;
-} */
 
 .edit-amount {
-  background-color: #2c786c;
+  background-color: var(--button-color);
   margin-bottom: 3px;
-  color: #000;
+  color: var(--black);
   font-size: 1rem;
   font-weight: bold;
   border: none;
@@ -240,11 +215,6 @@ hr {
   height: auto;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   transition: box-shadow 0.3s ease;
-}
-.btn-primary:hover {
-  background-color: #1a5040;
-  transform: translateY(-3px);
-  box-shadow: rgba(0, 0, 0, 0.5) 0px 8px 24px;
 }
 
 .button-container {
@@ -267,7 +237,7 @@ hr {
 
 .list-group-item {
   background-color: #c5dbca;
-  border: 1px solid black;
+  border: 2px solid var(--black);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -302,7 +272,7 @@ li {
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 5px;
-  background-color: #f0f0f0;
+  background-color: var(--background-color);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
@@ -329,7 +299,7 @@ td:hover {
 }
 
 .footer {
-  color: #ffffff;
+  color: var(--background-color);
   padding: 20px 0;
 
   width: 100%;
@@ -373,32 +343,32 @@ td:hover {
 
 /* Dark mode styles */
 body.dark-mode {
-  background-color: #222;
-  color: #fff;
+  background-color: var(--black);
+  color: var(--white);
 }
 
 body.dark-mode .container {
-  background-color: #333;
-  color: #fff;
+  background-color: var(--black);
+  color: var(--white);
 }
 
 body.dark-mode a {
-  color: #fff;
+  color: var(--white);
 }
 
 body.dark-mode .btn-primary,
 body.dark-mode .edit-amount {
   background-color: #2c786c;
-  color: #fff;
+  color: var(--white);
 }
 body.dark-mode .btn-danger {
-  color: #fff;
-  background-color: #333;
-  border: 1px solid red;
+  color: var(--white);
+  background-color: var(--black);
+  border: 1px solid var(--danger-color);
 }
 body.dark-mode .btn-primary:hover {
   background-color: #9cdbd3;
-  color: #000;
+  color: var(--black);
 }
 
 body.dark-mode .form-control,
@@ -406,39 +376,39 @@ body.dark-mode #name,
 body.dark-mode #username,
 body.dark-mode #password {
   border-color: #fff;
-  color: #fff;
+  color: var(--white);
 }
 
 body.dark-mode h2,
 body.dark-mode h3 {
-  color: #fff;
-  background-color: #333;
+  color: var(--white);
+  background-color: var(--black);
 }
 
 body.dark-mode h1 {
-  color: green;
+  color: var(--text-color);
 }
 
 body.dark-mode hr {
-  color: white;
-  background-color: white;
-  border: 1px solid white;
+  color: var(--white);
+  background-color: var(--white);
+  border: 1px solid var(--white);
 }
 body.dark-mode li {
-  background-color: #333;
-  color: #fff;
-  border: 1px solid white;
+  background-color: var(--black);
+  color: var(--white);
+  border: 1px solid var(--white);
 }
 
 body.dark-mode th,
 body.dark-mode td {
-  color: #fff;
-  background-color: #333;
+  color: var(--white);
+  background-color: var(--black);
   margin: 5px;
 }
 
 body.dark-mode .table {
-  border: 1px solid #fff;
+  border: 1px solid var(--white);
 }
 
 @keyframes marching-ants {

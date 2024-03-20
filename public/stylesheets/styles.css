@@ -145,7 +145,21 @@ hr {
   height: auto;
 }
 
-.btn-primary {
+.btn:hover {
+  background-color: #2c786c;
+  color: #000;
+  translate: transform 0.3s ease;
+}
+
+.pending-income-container {
+  margin: 20px 0 20px 0;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 3px;
+  background-color: #fff;
+}
+/* .btn-primary {
   background-color: #2c786c;
   color: #fff;
   border: none;
@@ -158,10 +172,9 @@ hr {
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   text-align: center;
-  /* display: inline-block; */
-}
+  }  */
 
-.btn-danger {
+/* .delete-btn {
   background-color: #dc3545;
   color: #fff;
   font-size: 1rem;
@@ -174,7 +187,44 @@ hr {
   width: 100%;
   height: auto;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+} */
+
+.revoke-btn,
+.delete-btn,
+.btn-primary {
+  background-color: #dc3545;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  padding: 7px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%;
+  height: auto;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transition: box-shadow 0.3s ease;
 }
+
+.admin-btn {
+  background-color: #2c786c;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  padding: 7px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%;
+  height: auto;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transition: box-shadow 0.3s ease;
+}
+/* .delete-btn {
+  width: 50%;
+} */
 
 .edit-amount {
   background-color: #2c786c;
@@ -241,6 +291,10 @@ hr {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 20px;
+}
+
+ul {
+  text-align: start;
 }
 
 li {
@@ -385,4 +439,52 @@ body.dark-mode td {
 
 body.dark-mode .table {
   border: 1px solid #fff;
+}
+
+@keyframes marching-ants {
+  0% {
+    border-color: #000;
+  }
+  25% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #000;
+  }
+  75% {
+    border-color: transparent;
+  }
+  100% {
+    border-color: #000;
+  }
+}
+
+@keyframes moving-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes border-move {
+  0% {
+    box-shadow: 0 0 0 1px #7c7c7c;
+  }
+  25% {
+    box-shadow: 1px 0 0 1px #000;
+  }
+  50% {
+    box-shadow: 1px 1px 0 1px #000;
+  }
+  75% {
+    box-shadow: 0 1px 0 1px #000;
+  }
+  100% {
+    box-shadow: 0 0 0 1px #000;
+  }
 }

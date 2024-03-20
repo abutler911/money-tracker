@@ -10,34 +10,43 @@
       </h1>
     </div>
     <hr />
-    <div class="row mb-4 justify-content-center">
-      <div class="col-4 text-center">
-        <form action="/logout" method="GET">
-          <button type="submit" class="btn btn-primary">Logout</button>
-        </form>
-      </div>
-      <div class="col-4 text-center">
-        <% if (user.isAdmin) { %>
-        <form action="/admin" method="GET">
-          <button type="submit" class="btn btn-primary">Admin</button>
-        </form>
-        <% } %>
-      </div>
-      <div class="col-4 text-center">
-        <button id="dark-mode-toggle" class="btn btn-primary">Dark</button>
-      </div>
-    </div>
 
-    <h2 class="text-center">Pending Income</h2>
-    <ul>
-      <li class="text-start">
-        Hero Consulting: <span class="text-end">$7,000</span>
-      </li>
-      <li class="text-start">
-        SkyWest Bonus (June): <span class="text-end">$10,000</span>
-      </li>
-      <li class="text-start">Lawsuit: <span class="text-end">$8,000</span></li>
-    </ul>
+    <div class="d-flex justify-content-around">
+      <form action="/logout" method="GET" class="mx-2">
+        <button type="submit" class="btn admin-btn" style="width: 100px">
+          Logout
+        </button>
+      </form>
+      <% if (user.isAdmin) { %>
+      <form action="/admin" method="GET" class="mx-2">
+        <button type="submit" class="btn admin-btn" style="width: 100px">
+          Admin
+        </button>
+      </form>
+      <% } %>
+      <button
+        id="dark-mode-toggle"
+        class="btn admin-btn mx-2"
+        style="width: 100px"
+      >
+        Dark
+      </button>
+    </div>
+    <hr class="mt-3" />
+    <div class="pending-income-container">
+      <h2 class="text-center">Pending Income</h2>
+      <ul>
+        <p class="text-start">
+          * Hero Consulting: <span class="text-end">$7,000</span>
+        </p>
+        <p class="text-start">
+          * SkyWest Bonus (June): <span class="text-end">$10,000</span>
+        </p>
+        <p class="text-start">
+          * Lawsuit: <span class="text-end">$8,000</span>
+        </p>
+      </ul>
+    </div>
   </div>
 
   <div class="row">
@@ -87,7 +96,7 @@
                     action="/delete-account/<%= account._id %>"
                     method="POST"
                   >
-                    <button type="submit" class="btn btn-danger">
+                    <button type="submit" class="delete-btn">
                       <i class="bi bi-trash3-fill"></i>
                     </button>
                   </form>

@@ -12,8 +12,6 @@ router.get("/admin", isAuthenticated, isAdmin, async (req, res) => {
     const unverifiedUsers = await User.find({ isVerified: false });
     const currentUsers = await User.find({ isVerified: true });
     const adminUsers = await User.find({ isAdmin: true });
-    console.log("Unverified Users:", unverifiedUsers);
-    console.log("Current Users:", currentUsers);
 
     res.render("admin", {
       title: "Admin",

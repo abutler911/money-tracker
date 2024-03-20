@@ -50,19 +50,20 @@
                 <span class="font-weight-bold">Username:</span> <%=
                 user.username %>
               </div>
+
               <div class="button-group">
+                <% if (!user.isAdmin) { %>
                 <form action="/grant-admin/<%= user._id %>" method="POST">
-                  <button type="submit" class="btn btn-primary btn-sm mr-2">
-                    Admin
-                  </button>
+                  <button type="submit" class="btn admin-btn">Admin</button>
                 </form>
+                <% } %>
                 <form
                   action="/delete-user/<%= user._id %>"
                   method="POST"
                   class="mt-2"
                 >
-                  <button type="submit" class="btn btn-danger btn-sm">
-                    Delete
+                  <button type="submit" class="btn delete-btn">
+                    <i class="bi bi-trash"></i>
                   </button>
                 </form>
               </div>
@@ -95,9 +96,7 @@
                 user.username %>
               </div>
               <form action="/revoke-access/<%= user._id %>" method="POST">
-                <button type="submit" class="btn btn-danger btn-sm">
-                  Revoke
-                </button>
+                <button type="submit" class="revoke-btn">Revoke</button>
               </form>
             </div>
           </li>
@@ -111,23 +110,17 @@
   </div>
 
   <hr />
-
-  <!-- Other functionalities -->
   <div class="row">
-    <h2>Manage Accounts</h2>
-    <div class="col-4">
+    <h2 class="mb-4">Manage Accounts</h2>
+    <div class="col-6">
       <form action="/add-account" method="GET">
-        <button type="submit" class="btn btn-primary btn-block">Add</button>
+        <button type="submit" class="btn admin-btn">Add</button>
       </form>
     </div>
-    <div class="col-4">
-      <form action="/edit-accounts" method="GET">
-        <button type="submit" class="btn btn-primary btn-block">Edit</button>
-      </form>
-    </div>
-    <div class="col-4">
+
+    <div class="col-6">
       <form action="/dashboard" method="GET">
-        <button type="submit" class="btn btn-primary btn-block">Home</button>
+        <button type="submit" class="btn admin-btn">Home</button>
       </form>
     </div>
   </div>
